@@ -6,7 +6,7 @@ RUN apk add mysql mysql-client
 
 RUN mkdir -p /run/mysqld
 COPY my.cnf /etc/my.cnf.d/mariadb-server.cnf
-COPY createdb.sql createdb.sql
+COPY createdb.sql /tmp/createdb.sql
 
 # RUN echo $IP > ip.txt
 # VOLUME ["/var/lib/mysql"]

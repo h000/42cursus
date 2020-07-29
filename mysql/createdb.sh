@@ -1,6 +1,6 @@
 until mysql
 do
-    echo -n "mysql starting..."
+	echo -n "waiting"
 done
 
-mysql -u root mysql < createdb.sql
+mysql -u root mysql < /tmp/createdb.sql
