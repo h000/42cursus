@@ -9,8 +9,11 @@ minikube dashboard &
 #docker 이미지와 minikube에서 사용할 수 있게?
 eval $(minikube docker-env)
 
+export IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
+printf "Minikube IP: ${IP}\n"
+
 docker build -t nginx-image ./nginx
-docker build -t mysql-image ./mysql
+docker build -t mysql-image ./mysql --build-arg IP=${IP}
 docker build -t phpmyadmin-image ./phpmyadmin
 # docker build -t wordpress-image ./wordpress
 
