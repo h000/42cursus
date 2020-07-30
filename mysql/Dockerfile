@@ -1,5 +1,5 @@
 FROM alpine:latest
-#ARG IP
+ARG IP
 
 RUN apk update
 RUN apk add mysql mysql-client
@@ -8,7 +8,7 @@ RUN mkdir -p /run/mysqld
 COPY my.cnf /etc/my.cnf.d/mariadb-server.cnf
 COPY createdb.sql /tmp/createdb.sql
 
-# RUN echo $IP > ip.txt
+RUN echo $IP > ip.txt
 # VOLUME ["/var/lib/mysql"]
 
 EXPOSE 3306
