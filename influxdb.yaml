@@ -12,9 +12,7 @@ spec:
         - port: 8086
           name: influxdb-port
           targetPort: 8086
-
 ---
-
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -22,47 +20,26 @@ metadata:
     labels:
         type: local
 spec:
-    storageClassName: influxdb-db
+    storageClassName: influxdb-persistent-storage
     accessModes:
         - ReadWriteMany
     capacity:
-        storage: 1Gi
+        storage: 2Gi
     hostPath:
         path: /var/lib/influxdb/
-
 ---
-
-apiVersion: v1
-kind: Secret
-metadata:
-  name: influxdb-secret
-  labels:
-    app: influxdb
-type: Opaque
-stringData:
-  INFLUXDB_CONFIG_PATH: /etc/influxdb.conf
-  INFLUXDB_ADMIN_USER: admin
-  INFLUXDB_ADMIN_PASSWORD: admin
-  INFLUXDB_DB: telegraf
-  INFLUXDB_USER: admin
-  INFLUXDB_USER_PASSWORD: admin
-
----
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-    name: influxdb-pvc
+    name: influxdb-pv-claim
 spec:
-    storageClassName: influxdb-db
+    storageClassName: influxdb-persistent-storage
     accessModes:
         - ReadWriteMany
     resources:
         requests:
-            storage: 1Gi
-
+            storage: 2Gi
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -87,12 +64,9 @@ spec:
                       - containerPort: 8086
                         name: influxdb-port
                   volumeMounts:
-                      - name: influxdb-pv
+                      - name: influxdb-persistent-storage
                         mountPath: /var/lib/influxdb/
-                  envFrom:
-                    - secretRef:
-                        name: influxdb-secret
             volumes:
-                - name: influxdb-pv
+                - name: influxdb-persistent-storage
                   persistentVolumeClaim:
-                      claimName: influxdb-pvc
+                      claimName: influxdb-pv-claim

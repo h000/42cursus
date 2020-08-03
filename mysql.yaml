@@ -45,15 +45,8 @@ spec:
       - image: mysql-image
         imagePullPolicy: Never
         name: mysql
-        # env:
-        # - name: MYSQL_ROOT_PASSWORD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: mysql-pass
-        #       key: password
         ports:
         - containerPort: 3306
-          # name: mysql
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql

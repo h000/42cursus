@@ -1,15 +1,15 @@
 FROM alpine:latest
 ARG IP
 
-RUN apk update
-RUN apk add mysql mysql-client
+#mysql 설치 및 설정
+RUN apk update \
+&& apk add mysql mysql-client \
+&& mkdir -p /run/mysqld
 
-RUN mkdir -p /run/mysqld
 COPY my.cnf /etc/my.cnf.d/mariadb-server.cnf
 COPY createdb.sql /tmp/createdb.sql
 
 RUN echo $IP > ip.txt
-# VOLUME ["/var/lib/mysql"]
 
 EXPOSE 3306
 

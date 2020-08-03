@@ -1,11 +1,11 @@
 FROM alpine
 
-RUN apk update && apk upgrade
+#influxDB 설치
+RUN apk update
 RUN apk add influxdb --no-cache 
 
-# COPY ./influxdb.conf /etc/
-
 VOLUME ["/var/lib/influxdb"]
+
 EXPOSE 8086
 
 RUN mkdir -p /run/influxd
