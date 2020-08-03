@@ -13,4 +13,5 @@ RUN echo $IP > ip.txt
 COPY ./telegraf.conf /etc/telegraf/
 
 COPY ./start.sh ./start.sh
-ENTRYPOINT ["sh", "./start.sh"]
+# ENTRYPOINT ["sh", "./start.sh"]
+CMD /etc/telegraf/telegraf

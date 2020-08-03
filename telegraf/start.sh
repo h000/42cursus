@@ -1,1 +1,0 @@
-cd /etc/telegraf/ && ./telegraf
