@@ -47,12 +47,12 @@ int main()
 
 	printf("\n============ft_strcpy==========\n");
 	printf("source : %s\n", str);
-	ft_strcpy(str, str1);
+	printf("result : %s\n", ft_strcpy(str, str1);
 	printf("destination : %s\n", str1);
 
 	printf("\n============ft_strcmp==========\n");
-
-
+	printf("%d\n", ft_strcmp(str, str1));
+	printf("%d\n", ft_strcmp("a", "b"));
 
 	printf("\n============ft_strdup==========\n");
 
