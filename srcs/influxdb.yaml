@@ -57,7 +57,7 @@ spec:
                 app: influxdb
         spec:
             containers:
-                - name: influxdb-container
+                - name: influxdb
                   image: influxdb-image
                   imagePullPolicy: Never
                   ports:
