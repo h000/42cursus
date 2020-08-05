@@ -9,6 +9,7 @@ spec:
     - port: 5050
       nodePort: 5050
       targetPort: 5050
+      name: wordpress
   selector:
     app: wordpress
   type: LoadBalancer

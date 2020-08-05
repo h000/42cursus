@@ -1,4 +1,5 @@
 FROM alpine:latest
+ARG IP
 
 #php 설치
 RUN apk update \
@@ -9,6 +10,11 @@ WORKDIR /etc
 RUN wget https://wordpress.org/latest.tar.gz \
 && tar -zxvf latest.tar.gz
 COPY wp-config.php wordpress
+
+RUN echo $IP > ip.txt
+RUN export IP=$(cat /ip.txt)
+RUN sed -i "s/IP/$IP/g" /etc/wordpress/wp-config.php
+
 
 EXPOSE 5050
 

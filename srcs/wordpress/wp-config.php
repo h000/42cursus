@@ -37,8 +37,8 @@ define( 'DB_CHARSET', 'utf8' );
 /** The Database Collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
 
-// define( 'WP_HOME', 'http://MINIKUBE_IP:5050' );
-// define( 'WP_SITEURL', 'http://MINIKUBE_IP:5050' );
+define( 'WP_HOME', 'http://IP:5050' );
+define( 'WP_SITEURL', 'http://IP:5050' );
 
 /**#@+
  * Authentication Unique Keys and Salts.
