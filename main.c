@@ -18,10 +18,13 @@ int main()
 	char	str2[50];
 	int		fd;
 	int		errno;
+	char	*a;
+	char	*b;
+	char	*c;
 
 
 	printf("\n============ft_write============\n");
-	fd = open("test.txt", O_WRONLY);
+	fd = open("test.txt", O_WRONLY | O_CREAT , 0777);
 	errno = 0;
 	printf("return value is %zd\n\n", ft_write(1, "hello world!\n", 13));
 	printf("Before error : errno is %d\n", errno);
@@ -47,23 +50,21 @@ int main()
 
 	printf("\n============ft_strcpy==========\n");
 	printf("source : %s\n", str);
-	printf("result : %s\n", ft_strcpy(str, str1);
-	printf("destination : %s\n", str1);
+	printf("result : %s\n", ft_strcpy(str2, str));
+	printf("destination : %s\n", str2);
 
 	printf("\n============ft_strcmp==========\n");
-	printf("%d\n", ft_strcmp(str, str1));
+	printf("%d\n", ft_strcmp(str, str2));
 	printf("%d\n", ft_strcmp("a", "b"));
 
 	printf("\n============ft_strdup==========\n");
-
-	// printf("errno is %d\n", errno);
-
-	// ft_write(1, s, 4);
-	//printf("%s\n", d);
-	//ft_write(1, "asds", 4);
-	//printf("%ld\n", write(1, "asdf", 0));
-	//printf("%ld\n", ft_write(1, "asdf", 0));
-	//printf("%d\n", ft_strcmp(d, s));
-	//printf("%d\n", strcmp(d,s));
-	//printf("%zu\n", ft_strlen(s));
+	a = ft_strdup("hello");
+	b = ft_strdup("strdup is done!");
+	c = ft_strdup("");
+	printf("result : %s\n", a);
+	printf("result : %s\n", b);
+	printf("result : %s\n", c);
+	free(a);
+	free(b);
+	free(c);
 }
