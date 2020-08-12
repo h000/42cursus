@@ -6,11 +6,19 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:25 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/12 13:53:54 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/12 17:54:54 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	clean_shm(void)
+{
+	sem_unlink("/fork");
+	sem_unlink("/pickup");
+	sem_unlink("/print");
+	sem_unlink("/someone_died");
+}
 
 t_vars	*get_vars(void)
 {
@@ -31,22 +39,18 @@ int		free_philo(void *t, int ret)
 
 int		free_vars(t_vars *vars)
 {
-	int	i;
-
-	i = 0;
-	while (i < vars->n_philo)
-		pthread_mutex_destroy(&vars->fork[i++]);
-	pthread_mutex_destroy(&vars->print);
-	pthread_mutex_destroy(&vars->pickup);
-	pthread_mutex_destroy(&vars->someone_died);
-	free(vars->fork);
+	// (void)vars;
+	sem_close(vars->fork);
+	sem_close(vars->pickup);
+	sem_close(vars->print);
+	sem_close(vars->someone_died);
+	clean_shm();
 	return (0);
 }
 
-void	init_vars(t_vars *vars, int argc, char **argv)
+int		init_vars(t_vars *vars, int argc, char **argv)
 {
-	int	i;
-
+	clean_shm();
 	vars->n_philo = ft_atoi(argv[1]);
 	vars->t_die = ft_atoi(argv[2]);
 	vars->t_eat = ft_atoi(argv[3]);
@@ -55,21 +59,20 @@ void	init_vars(t_vars *vars, int argc, char **argv)
 		vars->n_must_eat = ft_atoi(argv[5]);
 	else
 		vars->n_must_eat = -1;
-	pthread_mutex_init(&vars->print, 0);
-	pthread_mutex_init(&vars->pickup, 0);
-	pthread_mutex_init(&vars->someone_died, 0);
-	i = 0;
-	vars->fork = malloc(sizeof(pthread_mutex_t) * vars->n_philo);
-	while (i < vars->n_philo)
-	{
-		pthread_mutex_init(&vars->fork[i], 0);
-		i++;
-	}
+	if ((vars->fork = sem_open("/fork", O_CREAT, 0660, vars->n_philo)) == SEM_FAILED)
+		return (1);
+	if ((vars->print = sem_open("/print", O_CREAT, 0660, 1)) == SEM_FAILED)
+		return (1);
+	if ((vars->pickup = sem_open("/pickup", O_CREAT, 0660, 1)) == SEM_FAILED)
+		return (1);
+	if ((vars->someone_died = sem_open("/someone_died", O_CREAT, 0660, 1)) == SEM_FAILED)
+		return (1);
 	if (vars->n_must_eat == 0)
 		vars->n_done = vars->n_philo;
 	else
 		vars->n_done = 0;
 	vars->died = 0;
+	return (0);
 }
 
 int		main(int argc, char **argv)
@@ -79,22 +82,36 @@ int		main(int argc, char **argv)
 	if (argc != 5 && argc != 6)
 		return (ft_error("Error: Wrong Number of Arguments\n"));
 	vars = get_vars();
-	init_vars(vars, argc, argv);
+	if (init_vars(vars, argc, argv))
+		return (ft_error("Error: sem_open\n"));
 	if (create_philo(vars))
 		return (free_vars(vars));
 	while (1)
 	{
 		if (vars->n_done == vars->n_philo)
 		{
-			pthread_mutex_lock(&vars->print);
+			if ((sem_wait(vars->print) == -1))
+				ft_error("Error: sem_wait\n");
 			ft_putstr("Every philosopher ate enough!\n");
-			pthread_mutex_unlock(&vars->print);
+			if ((sem_post(vars->print) == -1))
+				ft_error("Error: sem_post&&&&&&\n");
 			return (free_vars(vars));
 		}
-		pthread_mutex_lock(&vars->someone_died);
+		ft_putstr("main1");
+		if ((sem_wait(vars->someone_died) == -1))
+			ft_error("Error: sem_wait\n");
+		ft_putstr("main2");
 		if (vars->died == 1)
+		{
+			if ((sem_post(vars->someone_died) == -1))
+				ft_error("Error: sem_post_@@@@@@@@@@@@\n");
 			return (free_vars(vars));
-		pthread_mutex_unlock(&vars->someone_died);
+		}
+		ft_putstr("main3");
+		if ((sem_post(vars->someone_died) == -1))
+			ft_error("Error: sem_post!!!!!!!!!!\n");
+		ft_putstr("main4");
 		ft_usleep(5);
+		ft_putstr("main5");
 	}
 }
