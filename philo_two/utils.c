@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:29 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/12 17:56:29 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/13 17:32:03 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,15 @@ void			print_info(t_vars *vars, t_philo *philo)
 
 int				print_status(t_vars *vars, t_philo *philo, t_status status)
 {
+	// ft_putstr("start");
+	// if (vars->died == 1 && status != DIED)
+		// return (0);
 	if ((sem_wait(vars->print) == -1))
 		ft_error("Error: sem_wait\n");
+		// ft_putstr("print");
 	if ((sem_wait(vars->someone_died) == -1))
 		ft_error("Error: sem_wait\n");
+	// ft_putstr("someone");
 	if (vars->died == 1 && status != DIED)
 	{
 		if ((sem_post(vars->someone_died) == -1))
@@ -91,13 +96,13 @@ void			eat(t_vars *vars, t_philo *philo)
 		ft_error("Error: sem_wait\n");
 	print_status(vars, philo, FORK_TAKEN);
 	if ((sem_post(vars->pickup) == -1))
-		ft_error("Error: sem_post===\n");
+		ft_error("Error: sem_post\n");
 	philo->t_last_eat = get_time();
 	print_status(vars, philo, EATING);
 	ft_usleep(vars->t_eat);
 	philo->n_eat += 1;
 	if ((sem_post(vars->fork) == -1))
-		ft_error("Error: sem_post1111\n");
+		ft_error("Error: sem_post\n");
 	if ((sem_post(vars->fork) == -1))
-		ft_error("Error: sem_post2222\n");
+		ft_error("Error: sem_post\n");
 }

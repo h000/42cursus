@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:25 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/12 17:54:54 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/13 17:44:00 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,15 @@ int		free_philo(void *t, int ret)
 
 int		free_vars(t_vars *vars)
 {
-	// (void)vars;
+	// ft_putstr("in free vars!!!\n");
+	(void)vars;
 	sem_close(vars->fork);
 	sem_close(vars->pickup);
 	sem_close(vars->print);
 	sem_close(vars->someone_died);
+	// ft_putstr("in free vars2!!!\n");
 	clean_shm();
+	// ft_putstr("in free vars3!!!\n");
 	return (0);
 }
 
@@ -88,30 +91,31 @@ int		main(int argc, char **argv)
 		return (free_vars(vars));
 	while (1)
 	{
+		// ft_putstr("111");
 		if (vars->n_done == vars->n_philo)
 		{
 			if ((sem_wait(vars->print) == -1))
 				ft_error("Error: sem_wait\n");
 			ft_putstr("Every philosopher ate enough!\n");
 			if ((sem_post(vars->print) == -1))
-				ft_error("Error: sem_post&&&&&&\n");
+				ft_error("Error: sem_post\n");
 			return (free_vars(vars));
 		}
-		ft_putstr("main1");
 		if ((sem_wait(vars->someone_died) == -1))
 			ft_error("Error: sem_wait\n");
-		ft_putstr("main2");
 		if (vars->died == 1)
 		{
 			if ((sem_post(vars->someone_died) == -1))
-				ft_error("Error: sem_post_@@@@@@@@@@@@\n");
-			return (free_vars(vars));
+				ft_error("Error: sem_post\n");
+			// if ((sem_wait(vars->print) == -1))
+			// 	ft_error("Error: sem_wait\n");
+			clean_shm();
+			return (0);
 		}
-		ft_putstr("main3");
 		if ((sem_post(vars->someone_died) == -1))
-			ft_error("Error: sem_post!!!!!!!!!!\n");
-		ft_putstr("main4");
-		ft_usleep(5);
-		ft_putstr("main5");
+			ft_error("Error: sem_post\n");
+			// ft_putstr("111");
+		ft_usleep(10);
+		// ft_putstr("111");
 	}
 }
