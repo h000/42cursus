@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/17 20:00:08 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/18 13:37:56 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,6 @@ void	*monitoring(void *p)
 	philo = (t_philo *)p;
 	while (philo->done == 0 && vars->died == 0)
 	{
-		// ft_putstr("111");
-		// if ((sem_wait(vars->someone_died) == -1))
-		// 	ft_error("Error: sem_wait\n");
 		if ((get_time() - philo->t_last_eat) > vars->t_die \
 		&& vars->died == 0 && vars->n_done != vars->n_philo)
 		{
@@ -86,13 +83,15 @@ int		create_philo(t_vars *vars)
 		philo[i].done = 0;
 		if ((philo[i].philo = fork()) == -1)
 			return (ft_error("Error: cannot fork"));
-		else if (philo[i].philo = fork() == 0)
-			philosoping(&philo[i]);
-		if ((philo[i].m_philo = fork()) == -1)
-			return (ft_error("Error: cannot fork"));
-		else if (philo[i].m_philo = fork() == 0)
-			monitoring(&philo[i]);
-		// if (pthread_create(&(philo[i].philo), 0, &philosophing, &philo[i]))
+		else if (philo[i].philo == 0)
+			philosophing(&philo[i]);
+		else
+		{
+			if ((philo[i].m_philo = fork()) == -1)
+				return (ft_error("Error: cannot fork"));
+			else if (philo[i].m_philo == 0)
+				monitoring(&philo[i]);
+		}// if (pthread_create(&(philo[i].philo), 0, &philosophing, &philo[i]))
 		// 	return (ft_error("Error: cannot create pthread"));
 		// if (pthread_detach(philo[i].philo))
 		// 	return (ft_error("Error: cannot detach pthread"));

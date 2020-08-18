@@ -2,7 +2,7 @@ SRCS	= main.c create_philo.c utils.c libft.c
 
 OBJS    = $(SRCS:.c=.o)
 
-NAME    = philo_two
+NAME    = philo_three
 
 CC      = gcc
 

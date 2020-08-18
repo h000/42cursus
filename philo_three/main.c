@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:25 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/13 17:44:00 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/18 13:35:35 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int		main(int argc, char **argv)
 		if ((sem_post(vars->someone_died) == -1))
 			ft_error("Error: sem_post\n");
 			// ft_putstr("111");
-		ft_usleep(10);
+		ft_usleep(5);
 		// ft_putstr("111");
 	}
 }
