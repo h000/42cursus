@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:00 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/12 13:47:03 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/18 13:19:33 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct	s_philo{
 	pthread_t		philo;
 	pthread_t		m_philo;
 	unsigned long	t_last_eat;
+	int				done;
 }				t_philo;
 
 typedef enum	e_status

@@ -84,8 +84,14 @@ int		create_philo(t_vars *vars)
 		philo[i].t_last_eat = get_time();
 		philo[i].n_eat = 0;
 		philo[i].done = 0;
-		if (philo[i].philo = fork())
+		if ((philo[i].philo = fork()) == -1)
 			return (ft_error("Error: cannot fork"));
+		else if (philo[i].philo = fork() == 0)
+			philosoping(&philo[i]);
+		if ((philo[i].m_philo = fork()) == -1)
+			return (ft_error("Error: cannot fork"));
+		else if (philo[i].m_philo = fork() == 0)
+			monitoring(&philo[i]);
 		// if (pthread_create(&(philo[i].philo), 0, &philosophing, &philo[i]))
 		// 	return (ft_error("Error: cannot create pthread"));
 		// if (pthread_detach(philo[i].philo))

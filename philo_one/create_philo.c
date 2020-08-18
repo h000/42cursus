@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/12 13:47:17 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/18 13:23:39 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,13 @@ void	*philosophing(void *p)
 
 	vars = get_vars();
 	philo = (t_philo *)p;
-	while (vars->n_done != vars->n_philo)
+	while (vars->died == 0)
 	{
-		pthread_mutex_lock(&vars->someone_died);
-		if (vars->died == 1)
-		{
-			pthread_mutex_unlock(&vars->someone_died);
-			break ;
-		}
-		pthread_mutex_unlock(&vars->someone_died);
 		print_status(vars, philo, THINKING);
 		eat(vars, philo);
 		if (philo->n_eat == vars->n_must_eat)
 		{
+			philo->done += 1;
 			vars->n_done += 1;
 			break ;
 		}
@@ -48,7 +42,7 @@ void	*monitoring(void *p)
 
 	vars = get_vars();
 	philo = (t_philo *)p;
-	while (vars->n_done != vars->n_philo)
+	while (philo->done == 0 && vars->died == 0)
 	{
 		pthread_mutex_lock(&vars->someone_died);
 		if ((get_time() - philo->t_last_eat) > vars->t_die \
@@ -76,6 +70,7 @@ int		create_philo_even(t_vars *vars, t_philo *philo)
 		philo[j].philo_no = j + 1;
 		philo[j].t_last_eat = get_time();
 		philo[j].n_eat = 0;
+		philo[i].done = 0;
 		if (pthread_create(&(philo[j].philo), 0, &philosophing, &philo[j]))
 			return (ft_error("Error: cannot create pthread"));
 		if (pthread_detach(philo[j].philo))
@@ -100,6 +95,7 @@ int		create_philo_odd(t_vars *vars, t_philo *philo)
 		philo[j].philo_no = j + 1;
 		philo[j].t_last_eat = get_time();
 		philo[j].n_eat = 0;
+		philo[i].done = 0;
 		if (pthread_create(&(philo[j].philo), 0, &philosophing, &philo[j]))
 			return (ft_error("Error: cannot create pthread"));
 		if (pthread_detach(philo[j].philo))
