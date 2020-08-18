@@ -25,15 +25,22 @@ void	PhoneBook::search_contact(void)
 
 	std::cout << "|     index|first name| last name|  nickname|" << std::endl;
 	std::cout << "|-------------------------------------------|" << std::endl;
+	if (this->cnt == 0)
+		return ;
 	for (int i = 0; i < cnt; i++)
 	{
 		std::cout << "|         " << i << "|";
 		this->contact[i].print_overview();
 	}
 	std::cout << "index> ";
-	while (!(std::cin >> idx) || idx < 0 || idx > this->cnt)
+	while (!(std::cin >> idx) || idx < 0 || idx > this->cnt - 1)
 	{
-		std::cout << "Invalid Index\n";
+		std::cin.clear();
+		std::cin.ignore(256, '\n');
+		std::cout << "Invalid Index" << std::endl;
+		std::cout << "index> ";
+		if (std::cin.eof())
+			exit(0);
 	}
 	this->contact[idx].print();
 }

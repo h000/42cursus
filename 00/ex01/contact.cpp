@@ -19,7 +19,7 @@ Contact::~Contact(){}
 
 void	Contact::get_inputs(void)
 {
-	for(int i = 0; i < 11; i++)
+	for (int i = 0; i < 11; i++)
 	{
 		std::cout << this->fields[i] << "> ";
 		std::cin >> inputs[i];
@@ -33,20 +33,19 @@ void	Contact::get_inputs(void)
 
 void	Contact::print_overview(void)
 {
-	int	blank_length = 0;
+	 std::string str;
 
 	for (int i = 0; i < 3; i++)
 	{
 		if (this->inputs[i].length() > 10)
-		{
-			this->inputs[i].resize(9);
-			this->inputs[i].append(".");
-		}
+			str = this->inputs[i].substr(0, 9).append(".");
 		else
-			blank_length = 10 - this->inputs[i].length();
-		for (int j = 0; j < blank_length ; j++)
-			std::cout << " ";
-		std::cout << this->inputs[i];
+		{
+			str.assign(10 - this->inputs[i].length(), ' ');
+ 			str.append(this->inputs[i]);
+		}
+		
+		std::cout << str;
 		std::cout << '|';
 	}
 	std::cout << std::endl;

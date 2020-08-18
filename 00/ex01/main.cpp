@@ -3,7 +3,7 @@
 int	main()
 {
 	std::string	input;
-	PhoneBook phonebook;
+	PhoneBook	phonebook;
 
 	while (1)
 	{
@@ -14,11 +14,10 @@ int	main()
 		else if (input.compare("SEARCH") == 0)
 			phonebook.search_contact();
 		else if (input.compare("EXIT") == 0)
-			; //나가기
+			exit(0);
 		else if (std::cin.eof())
-			break ; //ctrl + D
-		else
-			continue ; //필요 없음		
+			break ;
+		input = "";
 	}
 	return (0);
 }
