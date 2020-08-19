@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 16:12:44 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 16:18:13 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ void	*monitoring(void *p)
 		{
 			ft_putnbr(get_time() - philo->t_last_eat);
 			ft_putstr(" is the time\n");
+			ft_putnbr(vars->t_die);
+			ft_putstr(" is the time to die\n");
+			ft_putnbr((get_time() - philo->t_last_eat) > vars->t_die);
+			ft_putstr(" is the differnce between two");
 			vars->died = 1;
 			print_status(vars, philo, DIED);
 			break ;
