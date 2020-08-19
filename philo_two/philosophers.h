@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:00 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/13 16:22:41 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 16:57:25 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
 typedef struct	s_vars{
 	int				n_philo;
 	unsigned long	t_die;
-	int				t_eat;
-	int				t_sleep;
+	unsigned long	t_eat;
+	unsigned long	t_sleep;
 	int				n_must_eat;
-	int				t_start;
+	unsigned long	t_start;
 	int				n_done;
 	int				died;
 	sem_t			*fork;
