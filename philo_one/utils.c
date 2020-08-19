@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:29 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/12 13:47:30 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 17:05:56 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void			ft_usleep(unsigned long time)
 
 void			print_info(t_vars *vars, t_philo *philo)
 {
-	int	philo_no;
-	int	time;
+	int				philo_no;
+	unsigned long	time;
 
 	philo_no = philo->philo_no;
 	time = get_time() - vars->t_start;

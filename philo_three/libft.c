@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:20 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/12 16:55:07 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 17:11:02 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,17 @@ int		ft_atoi(const char *str)
 
 int		ft_error(char *s)
 {
-	int	i;
+	int		i;
+	t_vars	*vars;
 
+	vars = get_vars();
 	i = 0;
+	sem_wait(vars->print);
 	while (s[i])
 	{
 		write(2, &s[i], 1);
 		i++;
 	}
+	sem_post(vars->print);
 	return (1);
 }
