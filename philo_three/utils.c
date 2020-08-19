@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:29 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 17:48:49 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 17:56:55 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void			ft_usleep(unsigned long time)
 	}
 }
 
-void			print_info(t_vars *vars, t_philo *philo)
+void			print_info(t_vars *vars, t_philo *philo, t_status status)
 {
 	int				philo_no;
 	unsigned long	time;
@@ -46,23 +46,6 @@ void			print_info(t_vars *vars, t_philo *philo)
 	ft_putnbr(time);
 	ft_putstr(" ");
 	ft_putnbr(philo_no);
-}
-
-int				print_status(t_vars *vars, t_philo *philo, t_status status)
-{
-	if ((sem_wait(vars->print) == -1))
-		ft_error("Error: sem_wait\n");
-	if ((sem_wait(vars->someone_died) == -1))
-		ft_error("Error: sem_wait\n");
-	if (vars->died == 1 && status != DIED)
-	{
-		if ((sem_post(vars->someone_died) == -1))
-			ft_error("Error: sem_post\n");
-		if ((sem_post(vars->print) == -1))
-			ft_error("Error: sem_post\n");
-		return (0);
-	}
-	print_info(vars, philo);
 	if (status == THINKING)
 		ft_putstr(" is thinking\n");
 	else if (status == EATING)
@@ -73,8 +56,30 @@ int				print_status(t_vars *vars, t_philo *philo, t_status status)
 		ft_putstr(" died\n");
 	else if (status == FORK_TAKEN)
 		ft_putstr(" has taken a fork\n");
+}
+
+int				print_status(t_vars *vars, t_philo *philo, t_status status)
+{
+	if ((sem_wait(vars->print) == -1))
+		ft_error("Error: sem_wait\n");
+	if ((sem_wait(vars->someone_died) == -1))
+		ft_error("Error: sem_wait\n");
+	if (vars->died == 1)
+	{
+		if (status != DIED)
+		{
+			if ((sem_post(vars->someone_died) == -1))
+				ft_error("Error: sem_post\n");
+		}
+		else
+			print_info(vars, philo, status);
+		if ((sem_post(vars->print) == -1))
+			ft_error("Error: sem_post\n");
+		return (0);
+	}
 	if ((sem_post(vars->someone_died) == -1))
 		ft_error("Error: sem_post(((\n");
+	print_info(vars, philo, status);
 	if ((sem_post(vars->print) == -1))
 		ft_error("Error: sem_post\n");
 	return (0);
