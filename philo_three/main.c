@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:25 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 15:26:00 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 15:32:56 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,21 +91,6 @@ int		main(int argc, char **argv)
 		return (ft_error("Error: sem_open\n"));
 	if (create_philo(vars))
 		return (free_vars(vars));
-	i = 0;
-	while (vars->n_done < vars->n_philo)
-	{
-		waitpid(-1, &status, 0);
-		if (status == 2)
-		{
-			vars->died = 1;
-			break ;
-		}
-		else if (status == 1)
-		{
-			break;
-		}
-		vars->n_done++;
-	}
 	
 	// while (1)
 	// {
