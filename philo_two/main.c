@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:25 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/18 13:19:13 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 17:24:09 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,12 @@ int		free_philo(void *t, int ret)
 
 int		free_vars(t_vars *vars)
 {
-	// ft_putstr("in free vars!!!\n");
 	(void)vars;
 	sem_close(vars->fork);
 	sem_close(vars->pickup);
 	sem_close(vars->print);
 	sem_close(vars->someone_died);
-	// ft_putstr("in free vars2!!!\n");
 	clean_shm();
-	// ft_putstr("in free vars3!!!\n");
 	return (0);
 }
 
