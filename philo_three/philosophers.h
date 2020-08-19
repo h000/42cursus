@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:00 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 15:36:01 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 16:04:29 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct	s_vars{
 typedef struct	s_philo{
 	int				n_eat;
 	int				philo_no;
-	int				philo;
+	pid_t			philo;
 	pthread_t		m_philo;
 	unsigned long	t_last_eat;
 	int				done;

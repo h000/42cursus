@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 15:53:24 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 16:12:44 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	*monitoring(void *p)
 	{
 		if ((get_time() - philo->t_last_eat) > vars->t_die)
 		{
-			ft_putstr("!!!");
+			ft_putnbr(get_time() - philo->t_last_eat);
+			ft_putstr(" is the time\n");
 			vars->died = 1;
 			print_status(vars, philo, DIED);
 			break ;
@@ -64,9 +65,8 @@ void	wait_philo(t_vars *vars, t_philo *philo)
 
 	while (waitpid(-1, &status, 0) > 0)
 	{
-		if (status == 2)
+		if (WIFEXITED(status) && WEXITSTATUS(status) == 2)
 		{
-			vars->died = 1;
 			i = 0;
 			while (i < vars->n_philo)
 			{
@@ -75,7 +75,7 @@ void	wait_philo(t_vars *vars, t_philo *philo)
 			}
 			return ;
 		}
-		else if (status == 1)
+		else if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
 			return ;
 	}
 	ft_putstr("Every philosopher ate enough\n");
@@ -105,5 +105,6 @@ int		create_philo(t_vars *vars)
 		}
 		i++;
 	}
+	wait_philo(vars, philo);
 	return (0);
 }
