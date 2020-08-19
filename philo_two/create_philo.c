@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/18 13:23:18 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 14:59:56 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		create_philo(t_vars *vars)
 	while (i < vars->n_philo)
 	{
 		philo[i].philo_no = i + 1;
-		philo[i].t_last_eat = get_time();
+		philo[i].t_last_eat = vars->t_start;
 		philo[i].n_eat = 0;
 		philo[i].done = 0;
 		if (pthread_create(&(philo[i].philo), 0, &philosophing, &philo[i]))

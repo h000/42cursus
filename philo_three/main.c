@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:25 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/18 13:35:35 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 15:26:00 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int		init_vars(t_vars *vars, int argc, char **argv)
 int		main(int argc, char **argv)
 {
 	t_vars	*vars;
+	int		status;
+	int		i;
 
 	if (argc != 5 && argc != 6)
 		return (ft_error("Error: Wrong Number of Arguments\n"));
@@ -89,33 +91,49 @@ int		main(int argc, char **argv)
 		return (ft_error("Error: sem_open\n"));
 	if (create_philo(vars))
 		return (free_vars(vars));
-	while (1)
+	i = 0;
+	while (vars->n_done < vars->n_philo)
 	{
-		// ft_putstr("111");
-		if (vars->n_done == vars->n_philo)
+		waitpid(-1, &status, 0);
+		if (status == 2)
 		{
-			if ((sem_wait(vars->print) == -1))
-				ft_error("Error: sem_wait\n");
-			ft_putstr("Every philosopher ate enough!\n");
-			if ((sem_post(vars->print) == -1))
-				ft_error("Error: sem_post\n");
-			return (free_vars(vars));
+			vars->died = 1;
+			break ;
 		}
-		if ((sem_wait(vars->someone_died) == -1))
-			ft_error("Error: sem_wait\n");
-		if (vars->died == 1)
+		else if (status == 1)
 		{
-			if ((sem_post(vars->someone_died) == -1))
-				ft_error("Error: sem_post\n");
-			// if ((sem_wait(vars->print) == -1))
-			// 	ft_error("Error: sem_wait\n");
-			clean_shm();
-			return (0);
+			break;
 		}
-		if ((sem_post(vars->someone_died) == -1))
-			ft_error("Error: sem_post\n");
-			// ft_putstr("111");
-		ft_usleep(5);
-		// ft_putstr("111");
+		vars->n_done++;
 	}
+	
+	// while (1)
+	// {
+	// 	// ft_putstr("111");
+	// 	if (vars->n_done == vars->n_philo)
+	// 	{
+	// 		if ((sem_wait(vars->print) == -1))
+	// 			ft_error("Error: sem_wait\n");
+	// 		ft_putstr("Every philosopher ate enough!\n");
+	// 		if ((sem_post(vars->print) == -1))
+	// 			ft_error("Error: sem_post\n");
+	// 		return (free_vars(vars));
+	// 	}
+	// 	if ((sem_wait(vars->someone_died) == -1))
+	// 		ft_error("Error: sem_wait\n");
+	// 	if (vars->died == 1)
+	// 	{
+	// 		if ((sem_post(vars->someone_died) == -1))
+	// 			ft_error("Error: sem_post\n");
+	// 		// if ((sem_wait(vars->print) == -1))
+	// 		// 	ft_error("Error: sem_wait\n");
+	// 		clean_shm();
+	// 		return (0);
+	// 	}
+	// 	if ((sem_post(vars->someone_died) == -1))
+	// 		ft_error("Error: sem_post\n");
+	// 		// ft_putstr("111");
+	// 	ft_usleep(5);
+	// 	// ft_putstr("111");
+	// }
 }

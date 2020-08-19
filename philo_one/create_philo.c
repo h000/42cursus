@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/18 13:23:39 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 14:59:35 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		create_philo_even(t_vars *vars, t_philo *philo)
 	while ((j = 2 * i) < vars->n_philo)
 	{
 		philo[j].philo_no = j + 1;
-		philo[j].t_last_eat = get_time();
+		philo[j].t_last_eat = vars->t_start;
 		philo[j].n_eat = 0;
 		philo[i].done = 0;
 		if (pthread_create(&(philo[j].philo), 0, &philosophing, &philo[j]))
@@ -93,7 +93,7 @@ int		create_philo_odd(t_vars *vars, t_philo *philo)
 	while ((j = 2 * i + 1) < vars->n_philo)
 	{
 		philo[j].philo_no = j + 1;
-		philo[j].t_last_eat = get_time();
+		philo[j].t_last_eat = vars->t_start;
 		philo[j].n_eat = 0;
 		philo[i].done = 0;
 		if (pthread_create(&(philo[j].philo), 0, &philosophing, &philo[j]))

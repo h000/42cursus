@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:00 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/17 20:00:31 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 15:13:19 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct	s_philo{
 	int				n_eat;
 	int				philo_no;
 	int				philo;
-	int				m_philo;
+	pthread_t		m_philo;
 	unsigned long	t_last_eat;
 	int				done;
 }				t_philo;
