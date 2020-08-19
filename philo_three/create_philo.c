@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 17:22:03 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 17:41:24 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*monitoring(void *p)
 		{
 			vars->died = 1;
 			print_status(vars, philo, DIED);
-			break ;
+			exit(2);
 		}
 		ft_usleep(5);
 	}
@@ -53,7 +53,7 @@ void	*philosophing(void *p)
 		print_status(vars, philo, SLEEPING);
 		ft_usleep(vars->t_sleep);
 	}
-	exit(2);
+	return (0);
 }
 
 void	wait_philo(t_vars *vars, t_philo *philo)
