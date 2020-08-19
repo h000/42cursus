@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 16:29:59 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 17:16:15 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,19 @@ void	wait_philo(t_vars *vars, t_philo *philo)
 
 	while (waitpid(-1, &status, 0) > 0)
 	{
+		if ((sem_wait(vars->someone_died) == -1))
+			ft_error("Error: sem_wait\n");
 		if (WIFEXITED(status) && WEXITSTATUS(status) == 2)
 		{
 			i = 0;
 			while (i < vars->n_philo)
-			{
-				ft_putstr("killing...");
 				kill(philo[i++].philo, SIGINT);
-			}
 			return ;
 		}
 		else if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
 			return ;
+		if ((sem_post(vars->someone_died) == -1))
+				ft_error("Error: sem_post\n");
 	}
 	ft_putstr("Every philosopher ate enough\n");
 	return ;
