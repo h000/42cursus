@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 15:21:17 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 15:38:15 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,33 @@ void	*philosophing(void *p)
 	exit(2);
 }
 
+void	wait_philo(t_vars *vars, t_philo *philo)
+{
+	int		i;
+	int		status;
+
+	while (waitpid(-1, &status, 0) > 0)
+	{
+		if (status == 2)
+		{
+			vars->died = 1;
+			i = 0;
+			while (i < vars->n_philo)
+				kill(philo[i++].philo, SIGINT);
+			return ;
+		}
+		else if (status == 1)
+			return ;
+		i++;
+	}
+	ft_putstr("Every philosopher ate enough\n");
+	return ;
+}
+
 int		create_philo(t_vars *vars)
 {
 	t_philo	*philo;
 	int		i;
-	int		status;
 
 	i = 0;
 	if (!(philo = malloc(sizeof(t_philo) * vars->n_philo)))

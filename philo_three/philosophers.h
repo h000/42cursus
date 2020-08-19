@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:00 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 15:13:19 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 15:36:01 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <pthread.h>
 # include <semaphore.h>
 # include <stdio.h>
+# include <signal.h>
 
 typedef struct	s_vars{
 	int				n_philo;
