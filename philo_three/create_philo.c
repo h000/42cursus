@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 15:42:50 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 15:53:24 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	*monitoring(void *p)
 
 	vars = get_vars();
 	philo = (t_philo *)p;
-	while (philo->done == 0 && vars->died == 0)
+	while (1)
 	{
-		if ((get_time() - philo->t_last_eat) > vars->t_die \
-		&& vars->died == 0)
+		if ((get_time() - philo->t_last_eat) > vars->t_die)
 		{
+			ft_putstr("!!!");
 			vars->died = 1;
 			print_status(vars, philo, DIED);
 			break ;
@@ -69,7 +69,10 @@ void	wait_philo(t_vars *vars, t_philo *philo)
 			vars->died = 1;
 			i = 0;
 			while (i < vars->n_philo)
+			{
+				ft_putstr("killing...");
 				kill(philo[i++].philo, SIGINT);
+			}
 			return ;
 		}
 		else if (status == 1)
