@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:25 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 15:32:56 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 15:41:48 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ int		init_vars(t_vars *vars, int argc, char **argv)
 int		main(int argc, char **argv)
 {
 	t_vars	*vars;
-	int		status;
-	int		i;
 
 	if (argc != 5 && argc != 6)
 		return (ft_error("Error: Wrong Number of Arguments\n"));
