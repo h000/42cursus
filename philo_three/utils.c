@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:29 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 17:47:11 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 17:48:49 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,12 @@ int				print_status(t_vars *vars, t_philo *philo, t_status status)
 		ft_error("Error: sem_wait\n");
 	if (vars->died == 1 && status != DIED)
 	{
-		// if ((sem_post(vars->someone_died) == -1))
-		// 	ft_error("Error: sem_post\n");
+		if ((sem_post(vars->someone_died) == -1))
+			ft_error("Error: sem_post\n");
 		if ((sem_post(vars->print) == -1))
 			ft_error("Error: sem_post\n");
 		return (0);
 	}
-	if ((sem_post(vars->someone_died) == -1))
-		ft_error("Error: sem_post(((\n");
 	print_info(vars, philo);
 	if (status == THINKING)
 		ft_putstr(" is thinking\n");
@@ -75,6 +73,8 @@ int				print_status(t_vars *vars, t_philo *philo, t_status status)
 		ft_putstr(" died\n");
 	else if (status == FORK_TAKEN)
 		ft_putstr(" has taken a fork\n");
+	if ((sem_post(vars->someone_died) == -1))
+		ft_error("Error: sem_post(((\n");
 	if ((sem_post(vars->print) == -1))
 		ft_error("Error: sem_post\n");
 	return (0);
