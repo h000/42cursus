@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 15:21:17 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 15:28:42 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int		create_philo(t_vars *vars)
 {
 	t_philo	*philo;
 	int		i;
-	int		status;
 
 	i = 0;
 	if (!(philo = malloc(sizeof(t_philo) * vars->n_philo)))
