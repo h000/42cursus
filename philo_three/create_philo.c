@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 17:41:24 by hpark            ###   ########.fr       */
+/*   Updated: 2020/08/19 18:03:24 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,18 @@ void	wait_philo(t_vars *vars, t_philo *philo)
 				kill(philo[i++].philo, SIGINT);
 			return ;
 		}
-		else if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
+		else if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
+		{
+			vars->n_done++;
+			if (vars->n_done == vars->n_philo)
+			{
+				ft_putstr("Every philosopher ate enough\n");
+				return ;
+			}
+		}
+		else
 			return ;
 	}
-	ft_putstr("Every philosopher ate enough\n");
 	return ;
 }
 
