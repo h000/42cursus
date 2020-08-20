@@ -1,4 +1,4 @@
-#include "phonebook.hpp"
+#include "PhoneBook.hpp"
 
 PhoneBook::PhoneBook()
 {
@@ -42,5 +42,6 @@ void	PhoneBook::search_contact(void)
 		if (std::cin.eof())
 			exit(0);
 	}
+	std::cin.ignore(256, '\n');
 	this->contact[idx].print();
 }

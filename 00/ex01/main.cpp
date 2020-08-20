@@ -1,4 +1,4 @@
-#include "phonebook.hpp"
+#include "PhoneBook.hpp"
 
 int	main()
 {
@@ -8,7 +8,7 @@ int	main()
 	while (1)
 	{
 		std::cout << "command> ";
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (input.compare("ADD") == 0)
 			phonebook.add_contact();
 		else if (input.compare("SEARCH") == 0)

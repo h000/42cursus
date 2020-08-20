@@ -1,4 +1,4 @@
-#include "phonebook.hpp"
+#include "PhoneBook.hpp"
 
 Contact::Contact()
 {
@@ -22,7 +22,7 @@ void	Contact::get_inputs(void)
 	for (int i = 0; i < 11; i++)
 	{
 		std::cout << this->fields[i] << "> ";
-		std::cin >> inputs[i];
+		std::getline(std::cin, inputs[i]);
 		if (std::cin.eof())
 		{
 			std::cin.clear();
