@@ -6,18 +6,16 @@
 class Pony
 {
 	private:
-		char	*name;
-		char	*color;
+		std::string	name;
+		std::string	color;
 	public:
-		Pony(/* args */);
+		Pony(std::string name, std::string color);
+		std::string	getName(void);
+		std::string	getColor(void);
+		void	eat(void);
+		void	run(void);
+		void	sleep(void);
 		~Pony();
 };
-
-Pony::Pony(/* args */){}
-Pony::~Pony(){}
-
-void	ponyOnTheHeap();
-void	ponyOnTheStack();
-
 
 #endif
