@@ -9,7 +9,13 @@ ZombieHorde::ZombieHorde(int N)
 	for (int i = 0; i < N; i++)
 	{
 		this->zombies[i].setNameAndType(names[rand() % 10], "dead");
+		this->zombies[i].announce();
 	}
 }
 
-ZombieHorde::~ZombieHorde(){}
+ZombieHorde::~ZombieHorde()
+{
+	std::cout << "Release Zombies" << std::endl;
+	delete []this->zombies;
+	std::cout << "ZombieHorde destroyed" << std::endl;
+}

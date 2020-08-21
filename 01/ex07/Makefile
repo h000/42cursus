@@ -1,8 +1,8 @@
-SRCS	= Zombie.cpp ZombieHorde.cpp main.cpp
+SRCS	= main.cpp Sed.cpp
 
 OBJS    = $(SRCS:.cpp=.o)
 
-NAME    = zombie
+NAME    = replace
 
 CC      = clang++
 

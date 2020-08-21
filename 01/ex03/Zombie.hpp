@@ -12,7 +12,7 @@ class	Zombie
 		Zombie();
 		Zombie(std::string name, std::string type);
 		void	announce();
-		void	setCharecteristics(std::string name, std::string type)
+		void	setNameAndType(std::string name, std::string type);
 		~Zombie();
 };
 
