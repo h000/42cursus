@@ -6,9 +6,11 @@
 class	ZombieHorde
 {
 	private:
+		int		N;
 		Zombie	*zombies;
 	public:
 		ZombieHorde(int N);
+		void	announce();
 		~ZombieHorde();
 };
 
