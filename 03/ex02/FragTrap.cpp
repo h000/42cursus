@@ -1,7 +1,20 @@
 #include "FragTrap.hpp"
 
-FragTrap::FragTrap():
-	name("default")
+FragTrap::FragTrap(): ClapTrap()
+{
+	this->name = "default";
+	std::cout << "FR4G-TP <" << this->name << "> is created" << std::endl;
+	this->HP = 100;
+	this->maxHP = 100;
+	this->EP = 100;
+	this->maxEP = 100;
+	this->lv = 1;
+	this->meleeAttackDamage = 30;
+	this->rangedAttackDamage = 20;
+	this->armorDamageReduction = 5;
+}
+
+FragTrap::FragTrap(std::string const &name): ClapTrap(name)
 {
 	std::cout << "FR4G-TP <" << this->name << "> is created" << std::endl;
 	this->HP = 100;
@@ -14,22 +27,7 @@ FragTrap::FragTrap():
 	this->armorDamageReduction = 5;
 }
 
-FragTrap::FragTrap(std::string const &name):
-	name(name)
-{
-	std::cout << "FR4G-TP <" << this->name << "> is created" << std::endl;
-	this->HP = 100;
-	this->maxHP = 100;
-	this->EP = 100;
-	this->maxEP = 100;
-	this->lv = 1;
-	this->meleeAttackDamage = 30;
-	this->rangedAttackDamage = 20;
-	this->armorDamageReduction = 5;
-}
-
-FragTrap::FragTrap(FragTrap const &other):
-	name(other.name)
+FragTrap::FragTrap(FragTrap const &other): ClapTrap(other)
 {
 	std::cout << "FR4G-TP <" << this->name << "> is copied" << std::endl;
 	*this = other;
@@ -53,43 +51,6 @@ FragTrap	&FragTrap::operator=(const FragTrap &other)
 	return (*this);
 }
 
-void	FragTrap::rangedAttack(std::string const &target)
-{
-	std::cout << "FR4G-TP <" << this->name << "> attacks <" << target
-	<< "> at range, causing " << this->rangedAttackDamage
-	<< " points of damage!" << std::endl;
-}
-
-void	FragTrap::meleeAttack(std::string const &target)
-{
-	std::cout << "FR4G-TP <" << this->name << "> attacks <" << target
-	<< "> at melee, causing " << this->meleeAttackDamage
-	<< " points of damage!" << std::endl;
-}
-
-void	FragTrap::takeDamage(unsigned int amount)
-{
-	unsigned int	damage;
-
-	damage = amount - this->armorDamageReduction;
-	if (this->HP < damage)
-		damage = this->HP;
-	this->HP -= damage;
-	std::cout << "FR4G-TP <" << this->name << "> takes " \
-	<< damage << " points of damage!" << std::endl;
-}
-
-void	FragTrap::beRepaired(unsigned int amount)
-{
-	unsigned int	hitPoints;
-
-	hitPoints = this->HP + amount;
-	if (hitPoints > this->maxHP)
-		hitPoints = this->maxHP;
-	this->HP = hitPoints;
-	std::cout << "FR4G-TP <" << this->name << "> is repaired, Hit Points : " \
-	<< this->HP << " !" << std::endl;
-}
 
 void	FragTrap::vaulthunter_dot_exe(std::string const &target)
 {
