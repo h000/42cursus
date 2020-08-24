@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ScavTrap.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/24 12:17:58 by hpark             #+#    #+#             */
+/*   Updated: 2020/08/24 12:17:59 by hpark            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ScavTrap.hpp"
 
 ScavTrap::ScavTrap():
@@ -100,7 +112,7 @@ void	ScavTrap::beRepaired(unsigned int amount)
 	// random_device 를 통해 난수 생성 엔진을 초기화 한다.
 	std::mt19937 gen(rd());
 	// 0 부터 99 까지 균등하게 나타나는 난수열을 생성하기 위해 균등 분포 정의.
-	std::uniform_int_distribution<int> dis(1, 5);
+	std::uniform_int_distribution<int> dis(0, 4);
 
 	std::cout << "ScavTrap choose " << challenges[dis(gen)] << std::endl;
 

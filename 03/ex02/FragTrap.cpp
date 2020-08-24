@@ -1,30 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   FragTrap.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/24 12:17:40 by hpark             #+#    #+#             */
+/*   Updated: 2020/08/24 12:17:41 by hpark            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "FragTrap.hpp"
 
 FragTrap::FragTrap(): ClapTrap()
 {
-	this->name = "default";
 	std::cout << "FR4G-TP <" << this->name << "> is created" << std::endl;
-	this->HP = 100;
-	this->maxHP = 100;
-	this->EP = 100;
-	this->maxEP = 100;
-	this->lv = 1;
-	this->meleeAttackDamage = 30;
-	this->rangedAttackDamage = 20;
-	this->armorDamageReduction = 5;
 }
 
 FragTrap::FragTrap(std::string const &name): ClapTrap(name)
 {
 	std::cout << "FR4G-TP <" << this->name << "> is created" << std::endl;
-	this->HP = 100;
-	this->maxHP = 100;
-	this->EP = 100;
-	this->maxEP = 100;
-	this->lv = 1;
-	this->meleeAttackDamage = 30;
-	this->rangedAttackDamage = 20;
-	this->armorDamageReduction = 5;
 }
 
 FragTrap::FragTrap(FragTrap const &other): ClapTrap(other)
