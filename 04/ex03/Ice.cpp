@@ -2,7 +2,7 @@
 
 Ice::Ice() : AMateria("ice"){}
 
-Ice::Ice(Ice const &other)
+Ice::Ice(Ice const &other) : AMateria("ice")
 {
 	*this = other;
 }
@@ -25,5 +25,5 @@ Ice* Ice::clone() const
 void Ice::use(ICharacter& target)
 {
 	AMateria::use(target);
-	std::cout << "* heals NAME’s wounds *" << std::endl;
+	std::cout <<  "* shoots an ice bolt at NAME *" << std::endl;
 }
