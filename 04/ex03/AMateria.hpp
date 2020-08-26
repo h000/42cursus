@@ -5,15 +5,17 @@
 
 class AMateria
 {
-	private:
-
+	protected:
+		AMateria();
+		std::string	_type;
 		unsigned int _xp;
 	public:
 		AMateria(std::string const & type);
-		~AMateria();
-		std::string const & getType() const; //Returns the materia type
-		unsigned int getXP() const; //Returns the Materia's XP
-		virtual AMateria* clone() const = 0;
+		AMateria(AMateria const &other);
+		virtual ~AMateria();
+		AMateria	&operator=(AMateria const &other);
+		std::string const & getType() const;
+		unsigned int getXP() const;
 		virtual void use(ICharacter& target);
 };
 
