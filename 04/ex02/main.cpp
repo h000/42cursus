@@ -7,7 +7,7 @@ int main()
 	ISpaceMarine* bob = new TacticalMarine;
 	ISpaceMarine* jim = new AssaultTerminator;
 
-	ISquad* vlc = new Squad;;
+	ISquad* vlc = new Squad;
 	vlc->push(bob);
 	vlc->push(jim);
 	for (int i = 0; i < vlc->getCount(); ++i)
@@ -25,7 +25,7 @@ int main()
 	ISpaceMarine* kim = new AssaultTerminator;
 	ISpaceMarine* lim = new AssaultTerminator;
 
-	ISquad* sqd = new Squad;
+	Squad* sqd = new Squad;
 	sqd->push(lol);
 	std::cout << sqd->getCount() << std::endl;
 	sqd->push(kim);

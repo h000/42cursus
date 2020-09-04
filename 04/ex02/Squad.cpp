@@ -4,7 +4,11 @@ Squad::Squad() : count(0), units(nullptr){}
 
 Squad::Squad(Squad const &other)
 {
-	*this = other;
+	this->count = 0;
+	for (int i = 0; i < other.count; i++)
+	{
+		this->push(other.getUnit(i)->clone());
+	}
 }
 
 Squad::~Squad()
@@ -33,10 +37,10 @@ Squad			&Squad::operator=(const Squad &other)
 		this->units = this->units->next;
 		delete tmp;
 	}
-	this->count = other.count;
+	this->count = 0;
 	for (int i = 0; i < other.count; i++)
 	{
-		this->push(other.getUnit(i));
+		this->push(other.getUnit(i)->clone());
 	}
 	return (*this);
 }

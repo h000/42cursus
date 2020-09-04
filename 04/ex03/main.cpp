@@ -18,30 +18,32 @@ int main()
 	me->equip(tmp);
 
 	ICharacter* bob = new Character("bob");
+
+	me->use(0, *bob);
+	me->use(1, *bob);
 ///
 
-
-	AMateria* first = tmp;
+	AMateria *first = tmp;
 	
-	std::cout << "aaaaaaaaaaaaaaa" << std::endl;
+	std::cout << "=============" << std::endl;
 	me->use(-1, *bob);
-	std::cout << "materia exp: " << first->getXP() << std::endl;
-	std::cout << "aaaaaaaaaaaaaaa" << std::endl;
+	std::cout << "materia cure exp: " << first->getXP() << std::endl;
+	std::cout << "=============" << std::endl;
 	me->use(0, *bob);
-	std::cout << "materia exp: " << first->getXP() << std::endl;
-	std::cout << "aaaaaaaaaaaaaaa" << std::endl;
+	std::cout << "materia cure exp: " << first->getXP() << std::endl;
+	std::cout << "=============" << std::endl;
 	me->use(1, *bob);
-	std::cout << "aaaaaaaaaaaaaaa" << std::endl;
+	std::cout << "materia cure exp: " << first->getXP() << std::endl;
+	std::cout << "=============" << std::endl;
 	me->use(2, *bob);
-	std::cout << "aaaaaaaaaaaaaaa" << std::endl;
+	std::cout << "=============" << std::endl;
 	me->use(3, *bob);
-	std::cout << "aaaaaaaaaaaaaaa" << std::endl;
+	std::cout << "=============" << std::endl;
 	me->use(4, *bob);
-	std::cout << "aaaaaaaaaaaaaaa" << std::endl;
+	std::cout << "=============" << std::endl;
 	me->unequip(0);
-	std::cout << "materia exp: " << first->getXP() << std::endl;
 	me->use(0, *bob);
-	std::cout << "materia exp: " << first->getXP() << std::endl;
+	std::cout << "materia cure exp: " << first->getXP() << std::endl;
 	me->use(3, *bob);
 	me->unequip(-1);
 	me->equip(first);
