@@ -1,4 +1,4 @@
-NAME = ex01
+NAME = ex02
 CC = clang++
 CFLAGS = -Wall -Wextra -Werror
 
