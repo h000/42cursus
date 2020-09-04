@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 12:52:32 by hpark             #+#    #+#             */
-/*   Updated: 2020/09/04 15:27:46 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/04 15:45:10 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ name(name), grade(grade)
 }
 
 Bureaucrat::Bureaucrat(Bureaucrat const &other) :
-name(name), grade(grade)
+name(other.name), grade(other.grade)
 {
 	*this = other;
 }
