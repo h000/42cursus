@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 12:53:58 by hpark             #+#    #+#             */
-/*   Updated: 2020/09/04 12:54:42 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/04 15:40:33 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,22 @@ class	Form
 		class	GradeTooHighException : public std::exception
 		{
 			public:
-				const char* what() const noexcept;
+				virtual const char* what() const throw();
 		};
 		class	GradeTooLowException : public std::exception
 		{
 			public:
-				const char* what() const noexcept;
+				virtual const char* what() const throw();
 		};
 		class	AlreadySignedException : public std::exception
 		{
 			public:
-				const char* what() const noexcept;
+				virtual const char* what() const throw();
 		};
 		class	UnsignedFormException : public std::exception
 		{
 			public:
-				const char* what() const noexcept;
+				virtual const char* what() const throw();
 		};
 		std::string		getName() const;
 		int				getGradeToSign() const;

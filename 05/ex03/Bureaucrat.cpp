@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 12:55:28 by hpark             #+#    #+#             */
-/*   Updated: 2020/09/04 12:56:48 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/04 15:40:58 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ Bureaucrat	&Bureaucrat::operator=(Bureaucrat const &other)
 	return (*this);
 }
 
-const char* Bureaucrat::GradeTooHighException::what() const noexcept
+const char* Bureaucrat::GradeTooHighException::what() const throw()
 {
 	return "BureaucratException: Grade is too high";
 }
 
-const char* Bureaucrat::GradeTooLowException::what() const noexcept
+const char* Bureaucrat::GradeTooLowException::what() const throw()
 {
 	return "BureaucratException: Grade is too low";
 }

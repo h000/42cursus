@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 12:53:50 by hpark             #+#    #+#             */
-/*   Updated: 2020/09/04 12:54:41 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/04 15:40:14 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,22 @@ Form	&Form::operator=(Form const &other)
 	return (*this);
 }
 
-const char* Form::GradeTooHighException::what() const noexcept
+const char* Form::GradeTooHighException::what() const throw()
 {
 	return "FormException: Grade is too high";
 }
 
-const char* Form::GradeTooLowException::what() const noexcept
+const char* Form::GradeTooLowException::what() const throw()
 {
 	return "FormException: Grade is too low";
 }
 
-const char* Form::AlreadySignedException::what() const noexcept
+const char* Form::AlreadySignedException::what() const throw()
 {
 	return "FormException: Form is already signed";
 }
 
-const char* Form::UnsignedFormException::what() const noexcept
+const char* Form::UnsignedFormException::what() const throw()
 {
 	return "FormException: Unsigned form can not be executed";
 }

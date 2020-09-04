@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 12:55:32 by hpark             #+#    #+#             */
-/*   Updated: 2020/09/04 12:56:49 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/04 15:41:05 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ class	Bureaucrat
 		class	GradeTooHighException : public std::exception
 		{
 			public:
-				const char* what() const noexcept;
+				virtual const char* what() const throw();
 		};
 		class	GradeTooLowException : public std::exception
 		{
 			public:
-				virtual const char* what() const noexcept;
+				virtual const char* what() const throw();
 		};
 		std::string const	getName() const;
 		int					getGrade() const;
