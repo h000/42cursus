@@ -1,7 +1,7 @@
 #ifndef ARRAY_HPP
 # define ARRAY_HPP
 
-#include <exception>
+#include <stdexcept>
 
 template<typename T>
 class Array

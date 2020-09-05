@@ -39,6 +39,7 @@ Array<T>	&Array<T>::operator=(Array<T> const & other)
 			this->arr[i] = other.arr[i];
 	}
 	this->len = other.len;
+	return (*this);
 }
 
 template <typename T>

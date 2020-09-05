@@ -25,7 +25,6 @@ int	main()
 	std::cout << "==== test2 ====" << std::endl;
 	for(int i = 0; i < 10; i++)
 	{
-		test2[i] = i;
 		std::cout << test2[i] << " ";
 	}
 	test2[0] = 100;
@@ -38,8 +37,7 @@ int	main()
 	std::cout << "====deep copy====" << std::endl;
 	for(int i = 0; i < 10; i++)
 	{
-		test2[i] = i;
-		std::cout << test2[i] << " ";
+		std::cout << test[i] << " ";
 	}
 	std::cout << "\n====================assignation====================" << std::endl;
 	Array<int> test3;
@@ -47,7 +45,6 @@ int	main()
 	std::cout << "==== test3 ====" << std::endl;
 	for(int i = 0; i < 10; i++)
 	{
-		test3[i] = i;
 		std::cout << test3[i] << " ";
 	}
 	std::cout << "\n===============" << std::endl;
@@ -60,7 +57,6 @@ int	main()
 	std::cout << "====deep copy====" << std::endl;
 	for(int i = 0; i < 10; i++)
 	{
-		test2[i] = i;
 		std::cout << test2[i] << " ";
 	}
 	std::cout << "\n==================== default constructor ===============" << std::endl;

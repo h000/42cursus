@@ -6,14 +6,14 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 23:12:24 by hpark             #+#    #+#             */
-/*   Updated: 2020/09/04 23:12:26 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/05 13:15:16 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
 template <typename T>
-void	iter(T *arr, int len, void func(T&))
+void	iter(T *arr, int len, void (*func)(T&))
 {
 	for (int i = 0; i < len; i++)
 	{
@@ -22,9 +22,9 @@ void	iter(T *arr, int len, void func(T&))
 }
 
 template<typename T>
-void print(T const &t)
+void print(T &t)
 {
-    std::cout << t << std::endl;
+	std::cout << t << std::endl;
 }
 
 template<typename T>
@@ -45,3 +45,24 @@ int main()
 
 	return (0);
 }
+
+/*
+class Awesome
+{
+	public:
+		Awesome( void ) : _n( 42 ) { return; }
+		int get( void ) const { return this->_n; }
+	private:
+		int _n;
+};
+std::ostream & operator<<( std::ostream & o, Awesome const & rhs ) { o << rhs.get(); return o; }
+
+int main()
+{
+	int tab[] = { 0, 1, 2, 3, 4 }; // <--- I never understood why you can't write int[] tab. Wouldn't that make more sense?
+	Awesome tab2[5];
+	iter(tab, 5, print);
+	iter(tab2, 5, print);
+	return 0;
+}
+*/
