@@ -2,8 +2,11 @@
 # define SPAN_HPP
 
 #include <vector>
+#include <algorithm>
+#include <iostream>
+#include <exception>
 
-class Span
+class	Span
 {
 	private:
 		Span();
@@ -17,6 +20,11 @@ class Span
 		void	addNumber(int n);
 		int		shortestSpan(void);
 		int		longestSpan(void);
+		class	SpanFullException : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
 };
 
 
