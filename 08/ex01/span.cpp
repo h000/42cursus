@@ -51,7 +51,7 @@ int		Span::shortestSpan(void)
 	return (min);
 }
 
-int		Span::longestSpan(void)
+unsigned int		Span::longestSpan(void)
 {
 	if (this->ints.size() < 2)
 		throw std::out_of_range("OutOfRange: There is no span to find.");

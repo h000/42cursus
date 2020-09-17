@@ -19,7 +19,7 @@ class	Span
 		Span	&operator=(Span const &other);
 		void	addNumber(int n);
 		int		shortestSpan(void);
-		int		longestSpan(void);
+		unsigned int		longestSpan(void);
 		class	SpanFullException : public std::exception
 		{
 			public:
