@@ -1,7 +1,7 @@
 #include "mutantstack.hpp"
 
 template <typename T>
-MutantStack<T>::MutantStack(): std::stack<T>(){}
+MutantStack<T>::MutantStack(){}
 
 template <typename T>
 MutantStack<T>::~MutantStack(){}
