@@ -19,7 +19,7 @@ void	*philosophing(void *p)
 
 	vars = get_vars();
 	philo = (t_philo *)p;
-	while (vars->died == 0)
+	while (vars->died == 0 && philo->n_eat != vars->n_must_eat)
 	{
 		print_status(vars, philo, THINKING);
 		eat(vars, philo);
@@ -48,7 +48,6 @@ void	*monitoring(void *p)
 		if ((get_time() - philo->t_last_eat) > vars->t_die \
 		&& vars->died == 0 && vars->n_done != vars->n_philo)
 		{
-			vars->died = 1;
 			pthread_mutex_unlock(&vars->someone_died);
 			print_status(vars, philo, DIED);
 			break ;

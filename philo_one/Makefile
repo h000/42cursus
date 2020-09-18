@@ -2,7 +2,7 @@ SRCS = $(wildcard *.c)
 
 OBJS    = $(SRCS:.c=.o)
 
-NAME    = philo_three
+NAME    = philo_one
 
 CC      = gcc
 

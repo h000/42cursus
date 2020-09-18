@@ -1,4 +1,4 @@
-SRCS	= main.c create_philo.c utils.c libft.c
+SRCS = $(wildcard *.c)
 
 OBJS    = $(SRCS:.c=.o)
 

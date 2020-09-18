@@ -52,13 +52,12 @@ int				print_status(t_vars *vars, t_philo *philo, t_status status)
 {
 	pthread_mutex_lock(&vars->print);
 	pthread_mutex_lock(&vars->someone_died);
-	if (vars->died == 1 && status != DIED)
+	if (vars->died == 1)
 	{
 		pthread_mutex_unlock(&vars->someone_died);
 		pthread_mutex_unlock(&vars->print);
 		return (0);
 	}
-	pthread_mutex_unlock(&vars->someone_died);
 	print_info(vars, philo);
 	if (status == THINKING)
 		ft_putstr(" is thinking\n");
@@ -67,9 +66,13 @@ int				print_status(t_vars *vars, t_philo *philo, t_status status)
 	else if (status == SLEEPING)
 		ft_putstr(" is sleeping\n");
 	else if (status == DIED)
+	{
 		ft_putstr(" died\n");
+		vars->died = 1;
+	}
 	else if (status == FORK_TAKEN)
 		ft_putstr(" has taken a fork\n");
+	pthread_mutex_unlock(&vars->someone_died);
 	pthread_mutex_unlock(&vars->print);
 	return (0);
 }
