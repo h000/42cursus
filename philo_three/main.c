@@ -39,15 +39,12 @@ int		free_philo(void *t, int ret)
 
 int		free_vars(t_vars *vars)
 {
-	// ft_putstr("in free vars!!!\n");
 	(void)vars;
 	sem_close(vars->fork);
 	sem_close(vars->pickup);
 	sem_close(vars->print);
 	sem_close(vars->someone_died);
-	// ft_putstr("in free vars2!!!\n");
 	clean_shm();
-	// ft_putstr("in free vars3!!!\n");
 	return (0);
 }
 
@@ -70,10 +67,7 @@ int		init_vars(t_vars *vars, int argc, char **argv)
 		return (1);
 	if ((vars->someone_died = sem_open("/someone_died", O_CREAT, 0660, 1)) == SEM_FAILED)
 		return (1);
-	if (vars->n_must_eat == 0)
-		vars->n_done = vars->n_philo;
-	else
-		vars->n_done = 0;
+	vars->n_done = 0;
 	vars->died = 0;
 	return (0);
 }
@@ -91,33 +85,4 @@ int		main(int argc, char **argv)
 		return (free_vars(vars));
 	clean_shm();
 	return (0);
-	// while (1)
-	// {
-	// 	// ft_putstr("111");
-	// 	if (vars->n_done == vars->n_philo)
-	// 	{
-	// 		if ((sem_wait(vars->print) == -1))
-	// 			ft_error("Error: sem_wait\n");
-	// 		ft_putstr("Every philosopher ate enough!\n");
-	// 		if ((sem_post(vars->print) == -1))
-	// 			ft_error("Error: sem_post\n");
-	// 		return (free_vars(vars));
-	// 	}
-	// 	if ((sem_wait(vars->someone_died) == -1))
-	// 		ft_error("Error: sem_wait\n");
-	// 	if (vars->died == 1)
-	// 	{
-	// 		if ((sem_post(vars->someone_died) == -1))
-	// 			ft_error("Error: sem_post\n");
-	// 		// if ((sem_wait(vars->print) == -1))
-	// 		// 	ft_error("Error: sem_wait\n");
-	// 		clean_shm();
-	// 		return (0);
-	// 	}
-	// 	if ((sem_post(vars->someone_died) == -1))
-	// 		ft_error("Error: sem_post\n");
-	// 		// ft_putstr("111");
-	// 	ft_usleep(5);
-	// 	// ft_putstr("111");
-	// }
 }

@@ -21,15 +21,17 @@ void	*monitoring(void *p)
 	philo = (t_philo *)p;
 	while (1)
 	{
+		if ((sem_wait(vars->someone_died) == -1))
+			ft_error("Error: sem_wait\n");
 		if ((get_time() - philo->t_last_eat) > vars->t_die)
 		{
-			vars->died = 1;
 			print_status(vars, philo, DIED);
 			exit(2);
 		}
-		ft_usleep(5);
+		if ((sem_post(vars->someone_died) == -1))
+			ft_error("Error: sem_post\n");
+		usleep(100);
 	}
-	// ft_putstr("2");
 	return (0);
 }
 
@@ -44,16 +46,16 @@ void	*philosophing(void *p)
 		exit(ft_error("Error: cannot create pthread"));
 	if (pthread_detach((philo->m_philo)))
 		exit(ft_error("Error: cannot create pthread"));
-	while (vars->died == 0)
+	while (vars->died == 0 && philo->n_eat != vars->n_must_eat)
 	{
-		print_status(vars, philo, THINKING);
 		eat(vars, philo);
 		if (philo->n_eat == vars->n_must_eat)
 			exit(0);
 		print_status(vars, philo, SLEEPING);
 		ft_usleep(vars->t_sleep);
+		print_status(vars, philo, THINKING);
 	}
-	return (0);
+	exit(0);
 }
 
 void	wait_philo(t_vars *vars, t_philo *philo)

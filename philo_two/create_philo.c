@@ -21,7 +21,7 @@ void	*philosophing(void *p)
 	philo = (t_philo *)p;
 	while (vars->died == 0 && philo->n_eat != vars->n_must_eat)
 	{
-		print_status(vars, philo, THINKING);
+		// print_status(vars, philo, THINKING);
 		eat(vars, philo);
 		if (philo->n_eat == vars->n_must_eat)
 		{
@@ -31,6 +31,7 @@ void	*philosophing(void *p)
 		}
 		print_status(vars, philo, SLEEPING);
 		ft_usleep(vars->t_sleep);
+		print_status(vars, philo, THINKING);
 	}
 	return (0);
 }
@@ -47,11 +48,11 @@ void	*monitoring(void *p)
 		if ((get_time() - philo->t_last_eat) > vars->t_die \
 		&& vars->died == 0 && vars->n_done != vars->n_philo)
 		{
-			// vars->died = 1;
 			print_status(vars, philo, DIED);
 			break ;
 		}
-		ft_usleep(5);
+		// ft_usleep(1);
+		usleep(400);
 	}
 	return (0);
 }
