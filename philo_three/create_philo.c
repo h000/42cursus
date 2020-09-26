@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 18:03:24 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/26 17:05:21 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,14 @@ int		create_philo(t_vars *vars)
 	}
 	wait_philo(vars, philo);
 	return (free_philo(philo, 0));
+}
+
+int		free_philo(void *t, int ret)
+{
+	if (t)
+	{
+		free(t);
+		t = 0;
+	}
+	return (ret);
 }

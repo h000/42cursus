@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:00 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 17:21:36 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/26 17:07:36 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,5 @@ int				ft_atoi(const char *str);
 int				create_philo(t_vars *vars);
 t_vars			*get_vars(void);
 void			eat(t_vars *vars, t_philo *philo);
-int				free_philo(void *t, int ret);
+int				free_philo();
 #endif

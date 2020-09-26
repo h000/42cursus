@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:25 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 17:21:31 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/26 17:06:57 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,6 @@ t_vars	*get_vars(void)
 	static t_vars vars;
 
 	return (&vars);
-}
-
-int		free_philo(void *t, int ret)
-{
-	if (t)
-	{
-		free(t);
-		t = 0;
-	}
-	return (ret);
 }
 
 int		free_vars(t_vars *vars)
@@ -59,13 +49,15 @@ int		init_vars(t_vars *vars, int argc, char **argv)
 		vars->n_must_eat = ft_atoi(argv[5]);
 	else
 		vars->n_must_eat = -1;
-	if ((vars->fork = sem_open("/fork", O_CREAT, 0660, vars->n_philo)) == SEM_FAILED)
+	vars->fork = sem_open("/fork", O_CREAT, 0660, vars->n_philo);
+	if (vars->fork == SEM_FAILED)
 		return (1);
 	if ((vars->print = sem_open("/print", O_CREAT, 0660, 1)) == SEM_FAILED)
 		return (1);
 	if ((vars->pickup = sem_open("/pickup", O_CREAT, 0660, 1)) == SEM_FAILED)
 		return (1);
-	if ((vars->someone_died = sem_open("/someone_died", O_CREAT, 0660, 1)) == SEM_FAILED)
+	vars->someone_died = sem_open("/someone_died", O_CREAT, 0660, 1);
+	if (vars->someone_died == SEM_FAILED)
 		return (1);
 	vars->n_done = 0;
 	vars->died = 0;

@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:29 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 17:23:53 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/26 16:48:37 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int				print_status(t_vars *vars, t_philo *philo, t_status status)
 	if (vars->died == 1)
 	{
 		if ((sem_post(vars->print) == -1))
-				ft_error("Error: sem_post\n");
+			ft_error("Error: sem_post\n");
 		return (0);
 	}
 	print_info(vars, philo);

@@ -6,18 +6,19 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:25 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 17:24:09 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/26 17:03:48 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	clean_shm(void)
+int		clean_shm(void)
 {
 	sem_unlink("/fork");
 	sem_unlink("/pickup");
 	sem_unlink("/print");
 	sem_unlink("/someone_died");
+	return (0);
 }
 
 t_vars	*get_vars(void)
@@ -25,16 +26,6 @@ t_vars	*get_vars(void)
 	static t_vars vars;
 
 	return (&vars);
-}
-
-int		free_philo(void *t, int ret)
-{
-	if (t)
-	{
-		free(t);
-		t = 0;
-	}
-	return (ret);
 }
 
 int		free_vars(t_vars *vars)
@@ -59,13 +50,15 @@ int		init_vars(t_vars *vars, int argc, char **argv)
 		vars->n_must_eat = ft_atoi(argv[5]);
 	else
 		vars->n_must_eat = -1;
-	if ((vars->fork = sem_open("/fork", O_CREAT, 0660, vars->n_philo)) == SEM_FAILED)
+	vars->fork = sem_open("/fork", O_CREAT, 0660, vars->n_philo);
+	if (vars->fork == SEM_FAILED)
 		return (1);
 	if ((vars->print = sem_open("/print", O_CREAT, 0660, 1)) == SEM_FAILED)
 		return (1);
 	if ((vars->pickup = sem_open("/pickup", O_CREAT, 0660, 1)) == SEM_FAILED)
 		return (1);
-	if ((vars->someone_died = sem_open("/someone_died", O_CREAT, 0660, 1)) == SEM_FAILED)
+	vars->someone_died = sem_open("/someone_died", O_CREAT, 0660, 1);
+	if (vars->someone_died == SEM_FAILED)
 		return (1);
 	if (vars->n_must_eat == 0)
 		vars->n_done = vars->n_philo;
@@ -90,24 +83,14 @@ int		main(int argc, char **argv)
 	{
 		if (vars->n_done == vars->n_philo)
 		{
-			if ((sem_wait(vars->print) == -1))
-				ft_error("Error: sem_wait\n");
+			sem_wait(vars->print);
 			ft_putstr("Every philosopher ate enough!\n");
-			if ((sem_post(vars->print) == -1))
-				ft_error("Error: sem_post\n");
+			sem_post(vars->print);
 			return (free_vars(vars));
 		}
-		if ((sem_wait(vars->someone_died) == -1))
-			ft_error("Error: sem_wait\n");
 		if (vars->died == 1)
-		{
-			if ((sem_post(vars->someone_died) == -1))
-				ft_error("Error: sem_post\n");
-			clean_shm();
-			return (0);
-		}
-		if ((sem_post(vars->someone_died) == -1))
-			ft_error("Error: sem_post\n");
+			return (clean_shm());
+		sem_post(vars->someone_died);
 		ft_usleep(10);
 	}
 }

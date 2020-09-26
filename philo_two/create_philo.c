@@ -6,7 +6,7 @@
 /*   By: hpark <hpark@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:47:15 by hpark             #+#    #+#             */
-/*   Updated: 2020/08/19 14:59:56 by hpark            ###   ########.fr       */
+/*   Updated: 2020/09/26 16:51:18 by hpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	*philosophing(void *p)
 	philo = (t_philo *)p;
 	while (vars->died == 0 && philo->n_eat != vars->n_must_eat)
 	{
-		// print_status(vars, philo, THINKING);
 		eat(vars, philo);
 		if (philo->n_eat == vars->n_must_eat)
 		{
@@ -51,10 +50,19 @@ void	*monitoring(void *p)
 			print_status(vars, philo, DIED);
 			break ;
 		}
-		// ft_usleep(1);
 		usleep(400);
 	}
 	return (0);
+}
+
+int		free_philo(void *t, int ret)
+{
+	if (t)
+	{
+		free(t);
+		t = 0;
+	}
+	return (ret);
 }
 
 int		create_philo(t_vars *vars)
@@ -62,7 +70,6 @@ int		create_philo(t_vars *vars)
 	t_philo	*philo;
 	int		i;
 
-	i = 0;
 	if (!(philo = malloc(sizeof(t_philo) * vars->n_philo)))
 		return (1);
 	vars->t_start = get_time();
