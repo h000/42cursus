@@ -1,11 +1,11 @@
-#include "List.hpp"
+#include <list>
 #include <iostream>
 
-using namespace ft;
+using namespace std;
 
 int main()
 {
-	ft::List<int> my_list1;
+	list<int> my_list1;
 
 	std::cout << "======== size & empty ===========" << std::endl;
 
@@ -25,54 +25,53 @@ int main()
 	std::cout << "========= List constructor ==========" << std::endl;
 
 
-	ft::List<int> my_list2(my_list1);
+	list<int> my_list2(my_list1);
 	
-	for (ft::List<int>::iterator it = my_list2.begin(); it != my_list2.end(); ++it)
+	for (list<int>::iterator it = my_list2.begin(); it != my_list2.end(); ++it)
     {
 		std::cout << '<' << *it << '>';
 	}
   	std::cout << '\n';
 
-	ft::List<int>::reverse_iterator rit = my_list2.rbegin();
+	list<int>::reverse_iterator rit = my_list2.rbegin();
 	int i = 0;
 	while (rit != my_list2.rend())
 		std::cout << " " << *rit++;
 	std::cout << '\n';
 
-	for (ft::List<int>::reverse_iterator rit = my_list1.rbegin(); rit != my_list1.rend(); ++rit)
+	for (list<int>::reverse_iterator rit = my_list1.rbegin(); rit != my_list1.rend(); ++rit)
 		std::cout << " " << *rit;
 	std::cout << '\n';
 	std::cout << "==================" << std::endl;
 
 	
-	ft::List<int> my_list3((unsigned int)3, 5);
-	for (ft::List<int>::iterator it = my_list3.begin(); it != my_list3.end(); ++it)
+	list<int> my_list3((unsigned int)3, 5);
+	for (list<int>::iterator it = my_list3.begin(); it != my_list3.end(); ++it)
     	std::cout << '<' << *it << '>';
   	std::cout << '\n';
 
-	ft::List<int> my_list4(my_list2.begin(), my_list2.end());
-	for (ft::List<int>::iterator it = my_list4.begin(); it != my_list4.end(); ++it)
+	list<int> my_list4(my_list2.begin(), my_list2.end());
+	for (list<int>::iterator it = my_list4.begin(); it != my_list4.end(); ++it)
     	std::cout << '<' << *it << '>';
   	std::cout << '\n';
 
 
 	std::cout << "========= iter & rev_iter ==========" << std::endl;
-	for (ft::List<int>::iterator it = my_list1.begin(); it != my_list1.end(); ++it)
+	for (list<int>::iterator it = my_list1.begin(); it != my_list1.end(); ++it)
     	std::cout << '<' << *it << '>';
   	std::cout << '\n';
 
-	ft::List<int>::iterator from(my_list1.begin());
-	ft::List<int>::iterator until(my_list1.end());
+	list<int>::iterator from(my_list1.begin());
+	list<int>::iterator until(my_list1.end());
 	
-	ft::List<int>::reverse_iterator rev_begin(until);
-	ft::List<int>::reverse_iterator rev_end(from);
+	list<int>::reverse_iterator rev_begin(until);
+	list<int>::reverse_iterator rev_end(from);
 
 	while (rev_begin != rev_end)
 		std::cout << '<' << *(rev_begin++) << '>';
 	std::cout << '\n';
 
-
-	for (ft::List<int>::reverse_iterator rit = my_list1.rbegin(); rit != my_list1.rend(); ++rit)
+	for (list<int>::reverse_iterator rit = my_list1.rbegin(); rit != my_list1.rend(); ++rit)
 		std::cout << " " << *rit;
 	std::cout << '\n';
 
@@ -88,13 +87,13 @@ int main()
 		my_list1.pop_front();
 	}
 
-	// std::cout << "========pop_back===========" << std::endl;
+	std::cout << "========pop_back===========" << std::endl;
 
-	// while (!my_list2.empty())
-	// {
-	// 	std::cout << my_list2.back() << std::endl;
-	// 	my_list2.pop_back();
-	// } -double free!!!!!!
+	while (!my_list2.empty())
+	{
+		std::cout << my_list2.back() << std::endl;
+		my_list2.pop_back();
+	}
 
 	// std::cout << "========= assign ==========" << std::endl;
 
@@ -410,5 +409,4 @@ int main()
 
 	// std::cout << "=====================" << std::endl;
 
-	return (0);
 }
