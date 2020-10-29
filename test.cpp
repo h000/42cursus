@@ -95,77 +95,77 @@ int main()
 		my_list2.pop_back();
 	}
 
-	// std::cout << "========= assign ==========" << std::endl;
+	std::cout << "========= assign ==========" << std::endl;
 
-	// ft::List<int> first;
-	// ft::List<int> second;
-	// first.assign((unsigned int)7, 10);
-	// second.assign(first.begin(), first.end());
-	// int myints[] = {1776, 7, 4};
-  	// first.assign (myints, myints + 3);
+	list<int> first;
+	list<int> second;
+	first.assign((unsigned int)7, 10);
+	second.assign(first.begin(), first.end());
+	int myints[] = {1776, 7, 4};
+  	first.assign (myints, myints + 3);
 
-	// std::cout << "Size of first: " << first.size() << std::endl;
-	// std::cout << "Size of second: " << second.size() << std::endl;
+	std::cout << "Size of first: " << first.size() << std::endl;
+	std::cout << "Size of second: " << second.size() << std::endl;
 
-	// std::cout << "========= swap ==========" << std::endl;
+	std::cout << "========= swap ==========" << std::endl;
 	
-	// ft::List<int> a ((unsigned int)3,100);   // three ints with a value of 100
-	// ft::List<int> b ((unsigned int)5,200);  // five ints with a value of 200
+	list<int> a ((unsigned int)3,100);   // three ints with a value of 100
+	list<int> b ((unsigned int)5,200);  // five ints with a value of 200
 
 	
-	// a.swap(b);
+	a.swap(b);
 
-	// std::cout << "first contains:";
+	std::cout << "first contains:";
 
-	// for (ft::List<int>::iterator it=a.begin(); it!=a.end(); it++)
-	// 	std::cout << ' ' << *it;
-	// std::cout << '\n';
+	for (list<int>::iterator it=a.begin(); it!=a.end(); it++)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
 
-	// std::cout << "by reverse iterator:";
+	std::cout << "by reverse iterator:";
 
-	// for (ft::List<int>::reverse_iterator it=a.rbegin(); it!=a.rend(); it++)
-	// 	std::cout << ' ' << *it;
-	// std::cout << '\n';
+	for (list<int>::reverse_iterator it=a.rbegin(); it!=a.rend(); it++)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
 
-	// std::cout << "second contains:";
-	// for (ft::List<int>::iterator it=b.begin(); it!=b.end(); it++)
-	// 	std::cout << ' ' << *it;
-	// std::cout << '\n';
+	std::cout << "second contains:";
+	for (list<int>::iterator it=b.begin(); it!=b.end(); it++)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
 
-	// std::cout << "by reverse iterator:";
+	std::cout << "by reverse iterator:";
 
-	// for (ft::List<int>::reverse_iterator it=b.rbegin(); it!=b.rend(); it++)
-	// 	std::cout << ' ' << *it;
-	// std::cout << '\n';
-
-
-	// std::cout << "========= resize ==========" << std::endl;
-
-	// ft::List<int> my_list5;
-	// for (int i = 1; i < 10; ++i)
-	// 	my_list5.push_back(i);
-
-	// i = 0;
-	// for (ft::List<int>::iterator it=my_list5.begin(); it!=my_list5.end(); ++it)
-    // 	std::cout << ' ' << *it;	
-	// std::cout << '\n';
-
-	// my_list5.resize(5);
-	// for (ft::List<int>::iterator it=my_list5.begin(); it!=my_list5.end(); ++it)
-    // 	std::cout << ' ' << *it;
-	// std::cout << '\n';
-
-	// my_list5.resize(8,100);
-
-	// for (ft::List<int>::iterator it=my_list5.begin(); it!=my_list5.end(); ++it)
-    // 	std::cout << ' ' << *it;
-	// std::cout << '\n';
+	for (list<int>::reverse_iterator it=b.rbegin(); it!=b.rend(); it++)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
 
 
-	// my_list5.resize(12);
-	// for (ft::List<int>::iterator it=my_list5.begin(); it!=my_list5.end(); ++it)
-    // 	std::cout << ' ' << *it;
-	// std::cout << '\n';
+	std::cout << "========= resize ==========" << std::endl;
+
+	list<int> my_list5;
+	for (int i = 1; i < 10; ++i)
+		my_list5.push_back(i);
+
+	i = 0;
+	for (list<int>::iterator it=my_list5.begin(); it!=my_list5.end(); ++it)
+    	std::cout << ' ' << *it;	
+	std::cout << '\n';
+
+	my_list5.resize(5);
+	for (list<int>::iterator it=my_list5.begin(); it!=my_list5.end(); ++it)
+    	std::cout << ' ' << *it;
+	std::cout << '\n';
+
+	my_list5.resize(8,100);
+
+	for (list<int>::iterator it=my_list5.begin(); it!=my_list5.end(); ++it)
+    	std::cout << ' ' << *it;
+	std::cout << '\n';
+
+
+	my_list5.resize(12);
+	for (list<int>::iterator it=my_list5.begin(); it!=my_list5.end(); ++it)
+    	std::cout << ' ' << *it;
+	std::cout << '\n';
 
 	// std::cout << "========= splice ==========" << std::endl;
 
