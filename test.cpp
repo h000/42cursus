@@ -1,6 +1,16 @@
 #include <list>
 #include <iostream>
 
+struct is_odd 
+{
+	bool operator() (const int& value) { return (value%2)==1; }
+};
+
+bool single_digit(const int & value)
+{
+	return (value < 10);
+}
+
 using namespace std;
 
 int main()
@@ -167,87 +177,87 @@ int main()
     	std::cout << ' ' << *it;
 	std::cout << '\n';
 
-	// std::cout << "========= splice ==========" << std::endl;
+	std::cout << "========= splice ==========" << std::endl;
 
-	// ft::List<int> mylist1, mylist2;
-	// ft::List<int>::iterator it;
+	list<int> mylist1, mylist2;
+	list<int>::iterator it;
 
-	// // set some initial values:
-	// for (int i=1; i<=4; ++i)
-	// 	mylist1.push_back(i);      // mylist1: 1 2 3 4
+	// set some initial values:
+	for (int i=1; i<=4; ++i)
+		mylist1.push_back(i);      // mylist1: 1 2 3 4
 
-	// for (int i=1; i<=3; ++i)
-	// 	mylist2.push_back(i*10);   // mylist2: 10 20 30
+	for (int i=1; i<=3; ++i)
+		mylist2.push_back(i*10);   // mylist2: 10 20 30
 
-	// it = mylist1.begin();
-	// ++it;                         // points to 2
+	it = mylist1.begin();
+	++it;                         // points to 2
 
-	// mylist1.splice (it, mylist2); // mylist1: 1 10 20 30 2 3 4
-	// 								// mylist2 (empty)
-	// 								// "it" still points to 2 (the 5th element)
-	// std::cout << "mylist1 contains:";
-	// for (ft::List<int>::iterator iter = mylist1.begin(); iter != mylist1.end(); ++iter)
-	// 	std::cout << ' ' << *iter;
-	// std::cout << '\n';										
+	mylist1.splice (it, mylist2); // mylist1: 1 10 20 30 2 3 4
+									// mylist2 (empty)
+									// "it" still points to 2 (the 5th element)
+	std::cout << "mylist1 contains:";
+	for (list<int>::iterator iter = mylist1.begin(); iter != mylist1.end(); ++iter)
+		std::cout << ' ' << *iter;
+	std::cout << '\n';										
 	
-	// std::cout << *it << std::endl;
+	std::cout << *it << std::endl;
 	
-	// mylist2.splice(mylist2.begin(), mylist1, it);
-	// 								// mylist1: 1 10 20 30 3 4
-	// 								// mylist2: 2
+	mylist2.splice(mylist2.begin(), mylist1, it);
+									// mylist1: 1 10 20 30 3 4
+									// mylist2: 2
 	
-	// std::cout << "mylist1 contains:";
-	// for (ft::List<int>::iterator iter = mylist1.begin(); iter != mylist1.end(); ++iter)
-	// 	std::cout << ' ' << *iter;
+	std::cout << "mylist1 contains:";
+	for (list<int>::iterator iter = mylist1.begin(); iter != mylist1.end(); ++iter)
+		std::cout << ' ' << *iter;
 
-	// std::cout << '\n';
-	// std::cout << "mylist2 contains:";
-	// for (ft::List<int>::iterator iter = mylist2.begin(); iter != mylist2.end(); ++iter)
-	// 	std::cout << ' ' << *iter;
-	// std::cout << '\n';
+	std::cout << '\n';
+	std::cout << "mylist2 contains:";
+	for (list<int>::iterator iter = mylist2.begin(); iter != mylist2.end(); ++iter)
+		std::cout << ' ' << *iter;
+	std::cout << '\n';
 	
-	// it = mylist1.begin();
-	// for (int i = 0; i < 3; ++i)
-	// 	++it; //it is pointing 30.
+	it = mylist1.begin();
+	for (int i = 0; i < 3; ++i)
+		++it; //it is pointing 30.
 
-	// mylist1.splice(mylist1.begin(), mylist1, it, mylist1.end());
-	// 								// mylist1: 30 3 4 1 10 20
-	// std::cout << "mylist1 contains:";
-	// for (ft::List<int>::iterator iter = mylist1.begin(); iter != mylist1.end(); ++iter)
-	// 	std::cout << ' ' << *iter;
-	// std::cout << '\n';
+	mylist1.splice(mylist1.begin(), mylist1, it, mylist1.end());
+									// mylist1: 30 3 4 1 10 20
+	std::cout << "mylist1 contains:";
+	for (list<int>::iterator iter = mylist1.begin(); iter != mylist1.end(); ++iter)
+		std::cout << ' ' << *iter;
+	std::cout << '\n';
 
-	// std::cout << "========= remove ==========" << std::endl;
+	std::cout << "========= remove ==========" << std::endl;
 
-	// int my_ints[]= {17,89,7,14};
-	// ft::List<int> mylist3 (my_ints, my_ints + 4);
+	int my_ints[]= {17,89,7,14};
+	list<int> mylist3 (my_ints, my_ints + 4);
 
-	// std::cout << "mylist contains:";
-	// for (ft::List<int>::iterator it=mylist3.begin(); it!=mylist3.end(); ++it)
-	// 	std::cout << ' ' << *it;
-	// std::cout << '\n';
+	std::cout << "mylist contains:";
+	for (list<int>::iterator it=mylist3.begin(); it!=mylist3.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
 
-	// mylist3.remove(89);
-	// std::cout << "remove 89" << std::endl;
+	mylist3.remove(89);
+	std::cout << "remove 89" << std::endl;
 
-	// std::cout << "mylist contains:";
-	// for (ft::List<int>::iterator it=mylist3.begin(); it!=mylist3.end(); ++it)
-	// 	std::cout << ' ' << *it;
-	// std::cout << '\n';
-	// std::cout << "========= remove_if ==========" << std::endl;
+	std::cout << "mylist contains:";
+	for (list<int>::iterator it=mylist3.begin(); it!=mylist3.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
+	std::cout << "========= remove_if ==========" << std::endl;
 	
 
-	// int my_ints2[]= {15,36,7,17,20,39,4,1};
-	// ft::List<int> mylist4 (my_ints2 , my_ints2 + 8);   // 15 36 7 17 20 39 4 1
+	int my_ints2[]= {15,36,7,17,20,39,4,1};
+	list<int> mylist4 (my_ints2 , my_ints2 + 8);   // 15 36 7 17 20 39 4 1
 
-	// mylist4.remove_if (single_digit);           // 15 36 17 20 39
+	mylist4.remove_if (single_digit);           // 15 36 17 20 39
 
-	// mylist4.remove_if (is_odd());               // 36 20
+	mylist4.remove_if (is_odd());               // 36 20
 
-	// std::cout << "mylist contains:";
-	// for (ft::List<int>::iterator it = mylist4.begin(); it != mylist4.end(); ++it)
-	// 	std::cout << ' ' << *it;
-	// std::cout << '\n';
+	std::cout << "mylist contains:";
+	for (list<int>::iterator it = mylist4.begin(); it != mylist4.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
 
 	// std::cout << "========= sort & unique ==========" << std::endl;
 	// double mydoubles[]={ 12.15,  2.72, 73.0,  12.77,  3.14,

@@ -276,7 +276,7 @@ namespace ft
 			iterator insert(iterator position, const value_type& val)
 			{
 				//특정 위치 앞에 노드 추가
-				insert(position, 1, val);
+				insert(position, (size_type)1, val);
 				return (position.getPtr()->prev);
 			}
 			void	insert(iterator position, size_type n, const value_type& val)
@@ -311,8 +311,13 @@ namespace ft
 
 				if (_size == 0)
 				{
-					push_back(*first);
-					++first;
+					push_back(*first++);
+					// ++first;
+				}
+				if (position == begin())
+				{
+					push_front(*first++);
+					// ++first;
 				}
 				tmp = position.getPtr()->prev;
 				for (InputIterator it = first; it != last; ++it)
@@ -330,16 +335,21 @@ namespace ft
 			iterator erase (iterator position)
 			{
 				// position을 지움
+				if (position == begin())
+				{
+					pop_front();
+					return (begin());
+				}
 				if (position == end())
 					return (end());
-				Node<T> *tmp;
-				tmp = position->next;
-				position->prev->next = tmp;
-				tmp->prev = position->prev;
-				delete position;
-				//굳이 tmp 안만들어도 될듯?
+				Node<T> *tmp, *res;
+				tmp = position.getPtr();
+				res = tmp->next;
+				tmp->prev->next = res;
+				res->prev =tmp->prev;
+				delete tmp;
 				--_size;
-				return (tmp);
+				return (res);
 			}
 			iterator erase(iterator first, iterator last)
 			{
@@ -379,15 +389,61 @@ namespace ft
 			{
 				erase(begin(), end());
 			}
-			void splice (iterator position, List& x);
-			void splice (iterator position, List& x, iterator i);
-			void splice (iterator position, List& x, iterator first, iterator last);
-			void remove (const value_type& val);
+			void splice (iterator position, List& x)
+			{
+				insert(position, x.begin(), x.end());
+				x.clear();
+			}
+			void splice (iterator position, List& x, iterator i)
+			{
+				insert(position, *i);
+				x.erase(i);
+			}
+			void splice (iterator position, List& x, iterator first, iterator last)
+			{
+				insert(position, first, last);
+				x.erase(first, last);
+			}
+			void remove (const value_type& val)
+			{
+				iterator it = begin();
+				while (it != end())
+				{
+					if (*it == val)
+						it = erase(it);
+					else
+						++it;
+				}
+			}
 			template <class Predicate>
-			void remove_if (Predicate pred);
-			void unique();
+			void remove_if (Predicate pred)
+			{
+				iterator it = begin();
+				while (it != end())
+				{
+					if (pred(*it))
+						it = erase(it);
+					else
+						++it;
+				}
+			}
+			void unique()
+			{
+				iterator 	it = begin();
+				value_type&	val = *it++;
+				while (it != end())
+				{
+					if (*it == val)
+						it = erase(it);
+					else
+						++it;
+				}
+			}
 			template <class BinaryPredicate>
-			void unique (BinaryPredicate binary_pred);
+			void unique (BinaryPredicate binary_pred)
+			{
+				// ㅁㅗ르겠어
+			}
 			void merge (List& x);
 			template <class Compare>
  			void merge (List& x, Compare comp);
