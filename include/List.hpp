@@ -90,12 +90,12 @@ namespace ft
 			typedef typename Alloc::const_reference	const_reference;
 			typedef typename Alloc::pointer			pointer;
 			typedef typename Alloc::const_pointer	const_pointer;
-			typedef ListIterator<T>			iterator;
-			typedef ListIterator<const T>	const_iterator;
-			typedef ReverseIterator<iterator>	reverse_iterator;
+			typedef ListIterator<T>					iterator;
+			typedef ListIterator<const T>			const_iterator;
+			typedef ReverseIterator<iterator>		reverse_iterator;
 			typedef ReverseIterator<const_iterator>	const_reverse_iterator;
-			typedef std::ptrdiff_t		difference_type;
-			typedef size_t				size_type;
+			typedef std::ptrdiff_t					difference_type;
+			typedef size_t							size_type;
 
 			explicit List() : _head(nullptr), _tail(nullptr), _size(0)
 			{
@@ -291,6 +291,11 @@ namespace ft
 					push_back(val);
 					i += 1;
 				}
+				if (position == begin())
+				{
+					push_front(val);
+					i += 1;
+				}
 				tmp = position.getPtr()->prev;
 				while (i++ < n)
 				{
@@ -429,52 +434,189 @@ namespace ft
 			}
 			void unique()
 			{
-				iterator 	it = begin();
-				value_type&	val = *it++;
-				while (it != end())
+				// 중복되는 거 x
+				iterator 	first = begin();
+				while (first != end())
 				{
-					if (*it == val)
-						it = erase(it);
-					else
-						++it;
+					iterator	second = first;
+					++second;
+					while (second != end())
+					{
+						if (*second == *first)
+							second = erase(second);
+						else
+							++second;
+					}
+					++first;
 				}
 			}
 			template <class BinaryPredicate>
 			void unique (BinaryPredicate binary_pred)
 			{
-				// ㅁㅗ르겠어
+				// binar_pred(*first, *second) == 1 이면 삭제
+				iterator 	first = begin();
+				while (first != end())
+				{
+					iterator	second = first;
+					++second;
+					while (second != end())
+					{
+						if (binary_pred(*first, *second))
+							second = erase(second);
+						else
+							++second;
+					}
+					++first;
+				}
 			}
-			void merge (List& x);
+			void merge (List& x)
+			{
+				// 리스트 x 삭제 & x에 있는 요소들을 ordered position으로 삽입
+				if (&x == this)
+					return ;
+				iterator	first = begin();
+				iterator	second = x.begin();
+
+				while (second != x.end())
+				{
+					if (first == end() || *first > *second)
+					{
+						insert(first, *second);
+						++second;
+					}
+					else
+						++first;
+				}
+				x.clear();
+			}
 			template <class Compare>
- 			void merge (List& x, Compare comp);
-			void sort();
+ 			void merge (List& x, Compare comp)
+			{
+				if (&x == this)
+					return ;
+				iterator	first = begin();
+				iterator	second = x.begin();
+
+				while (second != x.end())
+				{
+					if (first == end() || comp(*second, *first))
+					{
+						insert(first, *second);
+						++second;
+					}
+					else
+						++first;
+				}
+				x.clear();
+			}
+			void sort()
+			{
+				iterator 	first = begin();
+				while (first != end())
+				{
+					iterator	second = first;
+					++second;
+					while (second != end())
+					{
+						if (*first > *second)
+							std::swap(*first, *second);
+						++second;
+					}
+					++first;
+				}
+			}
 			template <class Compare>
-			void sort (Compare comp);
-			void reverse();
+			void sort (Compare comp)
+			{
+				iterator 	first = begin();
+				while (first != end())
+				{
+					iterator	second = first;
+					++second;
+					while (second != end())
+					{
+						if (!comp(*first, *second))
+							std::swap(*first, *second);
+						++second;
+					}
+					++first;
+				}
+			}
+			void reverse()
+			{
+				iterator	first = begin();
+				iterator	last = end();
+				--last;
 
-
-
-
-			
-
-			
+				for (unsigned int i = 0; i < _size / 2; ++i)
+				{
+					std::swap(*first, *last);
+					++first;
+					--last;
+				}
+			}
     };
 
 	template <class T, class Alloc>
-	bool operator== (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs);
+	bool operator== (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return (false);
+
+		typename List<T, Alloc>::const_iterator	l_it = lhs.begin();
+		typename List<T, Alloc>::const_iterator	r_it = rhs.begin();
+		for (unsigned int i = 0; i < lhs.size(); ++i)
+		{
+			if (*l_it != *r_it)
+				return (false);
+			++l_it;
+			++r_it;
+		}
+		return (true);
+	}
 	template <class T, class Alloc>
-	bool operator!= (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs);
+	bool operator!= (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs)
+	{
+		return (!(lhs == rhs));
+	}
 	template <class T, class Alloc>
-	bool operator<  (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs);
+	bool operator<  (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs)
+	{
+		//behave as if using algorithm "lexicographical_compare"
+		typename List<T, Alloc>::const_iterator	l_it = lhs.begin();
+		typename List<T, Alloc>::const_iterator	r_it = rhs.begin();
+
+		for (; (l_it != lhs.end()) && (r_it != rhs.end()); ++l_it, ++r_it)
+		{
+			if (*l_it < *r_it)
+				return true;
+			if (*r_it < *l_it)
+				return false;
+		}
+		// lhs가 먼저 끝났으면 rhs보다 더 작고 나머지 경우는 작지 않으므로
+		return (l_it == lhs.end() && r_it != rhs.end());
+	}
 	template <class T, class Alloc>
-	bool operator<= (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs);
+	bool operator<= (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs)
+	{
+		return (!(rhs < lhs));
+	}
 	template <class T, class Alloc>
- 	bool operator>  (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs);
+ 	bool operator>  (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs)
+	{
+		return (rhs < lhs);
+	}
 	template <class T, class Alloc>
-	bool operator>= (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs);
+	bool operator>= (const List<T,Alloc>& lhs, const List<T,Alloc>& rhs)
+	{
+		return (!(lhs < rhs));
+	}
 	template <class T, class Alloc>
-	void swap (List<T,Alloc>& x, List<T,Alloc>& y);
-}
+	void swap (List<T,Alloc>& x, List<T,Alloc>& y)
+	{
+		x.swap(y);
+	}
+};
 
 
 
