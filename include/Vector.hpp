@@ -10,7 +10,7 @@ namespace ft
 	class VectorIterator
 	{
 		private:
-			
+			T*		_ptr;
 		public:
 			typedef T				value_type;
 			typedef std::ptrdiff_t	difference_type;
@@ -18,28 +18,95 @@ namespace ft
 			typedef T&				reference;
 			typedef Category		iterator_category;
 	
-		VectorIterator(void);
-		virtual ~VectorIterator(void);
-		VectorIterator(Node<T>* ptr);
-		VectorIterator(const VectorIterator& other);
-		VectorIterator&	operator=(const VectorIterator& other);
-		bool	operator==(const VectorIterator &other) const;
-		bool	operator!=(const VectorIterator &other) const;
-		T&	operator*(void);
+		VectorIterator(void) : _ptr(nullptr) {}
+		virtual ~VectorIterator(void) {}
+		VectorIterator(T* ptr) : _ptr(ptr) {}
+		VectorIterator(const VectorIterator& other)
+		{
+			*this = other;
+		}
+		VectorIterator&	operator=(const VectorIterator& other)
+		{
+			_ptr = other._ptr;
+			return (*this);
+		}
+		VectorIterator&	operator++(void)
+		{
+			++_ptr;
+			return (*this);
+		}
+		VectorIterator	operator++(int)
+		{
+			VectorIterator	tmp(*this);
+			this->operator++();
+			return (*this);
+		}
+		VectorIterator&	operator--(void)
+		{
+			--_ptr;
+			return (*this);
+		}
+		VectorIterator	operator--(int)
+		{
+			VectorIterator	tmp(*this);
+			this->operator--();
+			return (*this);
+		}
+		VectorIterator	&operator+(int)
+		{
+			return (_ptr + )
+		}
+		VectorIterator	&operator-(int)
+		{
+		}
+		VectorIterator	&operator+=(int)
+		{
+		}
+		VectorIterator	&operator-=(int)
+		{
+		}
+		bool	operator==(const VectorIterator &other) const
+		{
+			return (this->_ptr == other._ptr);
+		}
+		bool	operator!=(const VectorIterator &other) const
+		{
+			return (this->_ptr != other._ptr)
+		}
+		bool	operator<(const VectorIterator &other) const
+		{
+			return (this->_ptr < other._ptr);
+		}
+		bool	operator>(const VectorIterator &other) const
+		{
+			return (this->_ptr > other._ptr)
+		}
+		bool	operator<=(const VectorIterator &other) const
+		{
+			return (!(this->_ptr > other._ptr));
+		}
+		bool	operator>=(const VectorIterator &other) const
+		{
+			return (!(this->_ptr < other._ptr));
+		}
+		T&	operator*(void)
+		{
+			return (*this->_ptr);
+		}
 		//	*a = t
-		T*	operator->(void);
-		VectorIterator&	operator++(void);
-		VectorIterator	operator++(int);
-		VectorIterator&	operator--(void);
-		VectorIterator	operator--(int);
-		//+, -, <, >, <=, >=, +=, -=, a[n] 추가 구현 필요
+		T*	operator->(void)
+		{
+			return (this->_ptr);
+		}
+		
+		//+, -, +=, -=, a[n] 추가 구현 필요
 	};
 
 	template <class T, class Alloc = allocator<T> >
 	class Vector
 	{
 		private:
-
+			T*		_ptr;
 		public:
 			typedef T		value_type;
 			typedef Alloc	allocator_type;

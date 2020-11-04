@@ -131,7 +131,13 @@ namespace ft
 			{
 				*this = other;
 			}
-			~List(void) {};
+			~List(void)
+			{
+				if (this->_size)
+					clear();
+				if (this->_tail)
+					delete (this->_tail);
+			}
 			List&	operator=(const List<T>& other)
 			{
 				//깊은 복사 -double free날 수 있음
@@ -375,13 +381,13 @@ namespace ft
 				}
 				return (tmp);
 			}
-			void swap (List& x)
+			void swap(List& x)
 			{
 				std::swap(_head, x._head);
 				std::swap(_tail, x._tail);
 				std::swap(_size, x._size);
 			}
-			void resize (size_type n, value_type val = value_type())
+			void resize(size_type n, value_type val = value_type())
 			{
 				//size가 n이 됨 (size가 n보다 크면 앞 n개만 가져오고 나머진 지우고
 				//n보다 작으면 뒤에 val로 채움)
@@ -394,20 +400,70 @@ namespace ft
 			{
 				erase(begin(), end());
 			}
-			void splice (iterator position, List& x)
+			void splice(iterator position, List& x)
 			{
-				insert(position, x.begin(), x.end());
-				x.clear();
+				Node<T>*	pos = position.getPtr();
+
+				if (position == begin())
+					_head = x._head;
+				else
+				{
+					x._head->prev = pos->prev;
+					pos->prev->next = x._head;
+				}
+				pos->prev = x._tail->prev;
+				x._tail->prev->next = pos;
+				_size += x._size;
+
+				x._tail->prev = nullptr;
+				x._head = x._tail;
+				x._size = 0;
 			}
-			void splice (iterator position, List& x, iterator i)
+			void splice(iterator position, List& x, iterator i)
 			{
-				insert(position, *i);
-				x.erase(i);
+				Node<T>*	pos = position.getPtr();
+				Node<T>*	tmp = i.getPtr();
+
+				if (i != x.begin())
+					tmp->prev->next = tmp->next;
+				else
+					x._head = tmp->next;
+				tmp->next->prev = tmp->prev;
+				--x._size;
+
+				if (position != begin())
+					pos->prev->next = tmp;
+				else
+					_head = tmp;
+				tmp->prev = pos->prev;
+				pos->prev = tmp;
+				tmp->next = pos;
 			}
-			void splice (iterator position, List& x, iterator first, iterator last)
+			void splice(iterator position, List& x, iterator first, iterator last)
 			{
-				insert(position, first, last);
-				x.erase(first, last);
+				Node<T>*	pos = position.getPtr();
+				Node<T>*	start = first.getPtr();
+				Node<T>*	end = last.getPtr()->prev;
+
+				if (first != x.begin())
+					start->prev->next = end->next;
+				else
+					x._head = end->next;
+				end->next->prev = start->prev;
+
+				if (position != begin())
+					pos->prev->next = start;
+				else
+					_head = start;
+				start->prev = pos->prev;
+				pos->prev = end;
+				end->next = pos;
+
+				for (iterator it = first; it != last; ++it)
+				{
+					_size += 1;
+					x._size -= 1;
+				}
 			}
 			void remove (const value_type& val)
 			{
