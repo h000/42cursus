@@ -141,7 +141,6 @@ namespace ft
 			List&	operator=(const List<T>& other)
 			{
 				//깊은 복사 -double free날 수 있음
-				std::cout << _size << std::endl;
 				if (_size != 0)
 					clear();
 				if (!_tail)
