@@ -6,83 +6,100 @@
 
 namespace ft
 {
-    template <class T, class Category = bidirectional_iterator_tag>
-	class ListIterator
+    template <class T>
+	class ListIterator : public std::iterator<bidirectional_iterator_tag, T>
 	{
 		private:
 			Node<T>*	_ptr;
 		public:
-			typedef T				value_type;
-			typedef std::ptrdiff_t	difference_type;
-			typedef T*				pointer;
-			typedef T&				reference;
-			typedef Category		iterator_category;
-	
-		ListIterator(void) {}
-		virtual ~ListIterator(void) {}
-		ListIterator(Node<T>* ptr) : _ptr(ptr) {}
-		ListIterator(const ListIterator& other)
-		{
-			*this = other;
-		}
-		ListIterator&	operator=(const ListIterator& other)
-		{
-			_ptr = other._ptr;
-			return (*this);
-		}
-		ListIterator&	operator++(void)
-		{
-			if (_ptr && _ptr->next)
-				_ptr = _ptr->next;
-			return (*this);
-		}
-		ListIterator	operator++(int)
-		{
-			ListIterator	tmp(*this);
-			this->operator++();
-			return (tmp);
-		}
-		ListIterator&	operator--(void)
-		{
-			if (_ptr && _ptr->prev)
-				_ptr = _ptr->prev;
-			return (*this);
-		}
-		ListIterator	operator--(int)
-		{
-			ListIterator	tmp(*this);
-			this->operator--();
-			return (tmp);
-		}
-		bool	operator==(const ListIterator &other) const
-		{
-			return (_ptr == other._ptr);
-		}
-		bool	operator!=(const ListIterator &other) const
-		{
-			return (_ptr != other._ptr);
-		}
-		T&	operator*(void)
-		{
-			return (_ptr->data);
-		}
-		T*	operator->(void)
-		{
-			return (&(_ptr->data));
-		}
-		Node<T>	*getPtr(void)
-		{
-			return (_ptr);
-		}
+			ListIterator(void) {}
+			virtual ~ListIterator(void) {}
+			ListIterator(Node<T>* ptr) : _ptr(ptr) {}
+			ListIterator(const ListIterator& other)
+			{
+				*this = other;
+			}
+			ListIterator&	operator=(const ListIterator& other)
+			{
+				_ptr = other._ptr;
+				return (*this);
+			}
+			ListIterator&	operator++(void)
+			{
+				if (_ptr && _ptr->next)
+					_ptr = _ptr->next;
+				return (*this);
+			}
+			ListIterator	operator++(int)
+			{
+				ListIterator	tmp(*this);
+				this->operator++();
+				return (tmp);
+			}
+			ListIterator&	operator--(void)
+			{
+				if (_ptr && _ptr->prev)
+					_ptr = _ptr->prev;
+				return (*this);
+			}
+			ListIterator	operator--(int)
+			{
+				ListIterator	tmp(*this);
+				this->operator--();
+				return (tmp);
+			}
+			bool	operator==(const ListIterator &other) const
+			{
+				return (_ptr == other._ptr);
+			}
+			bool	operator!=(const ListIterator &other) const
+			{
+				return (_ptr != other._ptr);
+			}
+			T&	operator*(void)
+			{
+				return (_ptr->data);
+			}
+			T*	operator->(void)
+			{
+				return (&(_ptr->data));
+			}
+			Node<T>	*getPtr(void)
+			{
+				return (_ptr);
+			}
 	};
 
-    template <typename T, typename Alloc = std::allocator<T> >
-    class List
-    {
+	template <typename T, typename Alloc = std::allocator<T> >
+	class List
+	{
 		private:
-			Node<T>		*_head;
-			Node<T>		*_tail;
+			typedef typename Alloc::template rebind<Node<T>>::other node_alloc;
+			
+			Node<T>*	_head;
+			Node<T>*	_tail;
 			size_t		_size;
+			Alloc		_alloc;
+
+			Node<T>*	create_node(Node<T>* prev, Node<T>* next, T data)
+			{
+				Node<T>	tmp;
+				Node<T>	*n;
+				
+				tmp.next = next;
+				tmp.prev = prev;
+				tmp.data = data;
+				
+				n = node_alloc(_alloc).allocate(1);
+				node_alloc(_alloc).construct(n, tmp);
+				return (n);
+			}
+			void		delete_node(Node<T>* node)
+			{
+				node_alloc(_alloc).destroy(node);
+				node_alloc(_alloc).deallocate(node, 1);
+				node = nullptr;
+			}
         public:
 			typedef T		value_type;
 			typedef Alloc	allocator_type;
@@ -97,33 +114,27 @@ namespace ft
 			typedef std::ptrdiff_t					difference_type;
 			typedef size_t							size_type;
 
-			explicit List() : _head(nullptr), _tail(nullptr), _size(0)
+			explicit List(const allocator_type& alloc = allocator_type())
+			: _head(nullptr), _tail(nullptr), _size(0), _alloc(alloc)
 			{
-				_tail = new Node<T>();
-				_tail->next = nullptr;
-				_tail->prev = nullptr;
-				_tail->data = 0;
+				_tail = create_node(nullptr, nullptr, 0);
 				_head = _tail;
 			}
-			explicit List(size_type n, const value_type& val = value_type())
-			: _head(nullptr), _tail(nullptr), _size(0)
+			explicit List(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+			: _head(nullptr), _tail(nullptr), _size(0), _alloc(alloc)
 			{
-				_tail = new Node<T>();
-				_tail->next = nullptr;
-				_tail->prev = nullptr;
-				_tail->data = 0;
+				_tail = create_node(nullptr, nullptr, 0);
 				_head = _tail;
+
 				insert(_tail, n, val);
 			}
 			template <class InputIterator>
-			List(InputIterator first, InputIterator last)
-			: _head(nullptr), _tail(nullptr), _size(0)
+			List(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+			: _head(nullptr), _tail(nullptr), _size(0), _alloc(alloc)
 			{
-				_tail = new Node<T>();
-				_tail->next = nullptr;
-				_tail->prev = nullptr;
-				_tail->data = 0;
+				_tail = create_node(nullptr, nullptr, 0);
 				_head = _tail;
+
 				insert(_tail, first, last);
 			}
 			List(const List& other)
@@ -133,25 +144,23 @@ namespace ft
 			}
 			~List(void)
 			{
-				if (this->_size)
+				if (_size)
 					clear();
-				if (this->_tail)
-					delete (this->_tail);
+				if (_tail)
+					delete_node(_tail);
 			}
 			List&	operator=(const List<T>& other)
 			{
 				//깊은 복사 -double free날 수 있음
+				_alloc = other._alloc;
 				if (_size != 0)
 					clear();
 				if (!_tail)
 				{
-					_tail = new Node<T>();
-					_tail->next = nullptr;
-					_tail->prev = nullptr;
-					_tail->data = 0;
+					_tail = create_node(nullptr, nullptr, 0);
 					_head = _tail;
 				}
-				if (other.size())
+				if (other._size)
 					insert(end(), other.begin(), other.end());
 				return (*this);
 			};
@@ -233,10 +242,9 @@ namespace ft
 			void	push_front(const value_type& val)
 			{
 				//맨 앞에 새로운 node 추가
-				Node<T>	*node = new Node<T>();
-				node->prev = nullptr;
-				node->next = _head;
-				node->data = val;
+				Node<T>	*node;
+				node = create_node(nullptr, _head, val);
+
 				_head->prev = node;
 				_head = node;
 				_size += 1;
@@ -249,20 +257,19 @@ namespace ft
 				Node<T> *tmp;
 				tmp = _head;
 				_head = _head->next;
-				delete tmp;
+				delete_node(tmp);
 				--_size;
 			}
 			void	push_back(const value_type& val)
 			{
 				//맨 뒤에 노드 추가
-				Node<T>	*node = new Node<T>();
+				Node<T>	*node;
+				node = create_node(_tail->prev, _tail, val);
+
 				if (_size != 0)
 					_tail->prev->next = node;
 				else
 					_head = node;
-				node->prev = _tail->prev;
-				node->next = _tail;
-				node->data = val;
 				_tail->prev = node;
 				_size += 1;
 			}
@@ -274,8 +281,11 @@ namespace ft
 				Node<T> *tmp;
 				tmp = _tail->prev;
 				_tail->prev = tmp->prev;
-				tmp->next = _tail;
-				delete tmp;
+				if (tmp->prev != nullptr)
+					tmp->prev->next = _tail;
+				else
+					_head = _tail;
+				delete_node(tmp);
 				--_size;
 			}
 			iterator insert(iterator position, const value_type& val)
@@ -304,10 +314,9 @@ namespace ft
 				tmp = position.getPtr()->prev;
 				while (i++ < n)
 				{
-					Node<T>	*node = new Node<T>();
-					node->prev = tmp;
-					node->next = tmp->next;
-					node->data = val;
+					Node<T>	*node;
+					node = create_node(tmp, tmp->next, val);
+;
 					tmp->next = node;
 					node->next->prev = node;
 					++_size;
@@ -315,7 +324,7 @@ namespace ft
 				}
 			}
 			template <class InputIterator>
-			void insert (iterator position, InputIterator first, InputIterator last)
+			void insert(iterator position, InputIterator first, InputIterator last)
 			{
 				Node<T>	*tmp;
 
@@ -332,17 +341,16 @@ namespace ft
 				tmp = position.getPtr()->prev;
 				for (InputIterator it = first; it != last; ++it)
 				{
-					Node<T>	*node = new Node<T>();
-					node->prev = tmp;
-					node->next = tmp->next;
-					node->data = *it;
+					Node<T>	*node;
+					node = create_node(tmp, tmp->next, *it);
+
 					tmp->next = node;
 					node->next->prev = node;
 					++_size;
 					tmp = node;
 				}
 			}
-			iterator erase (iterator position)
+			iterator erase(iterator position)
 			{
 				// position을 지움
 				if (position == begin())
@@ -357,26 +365,26 @@ namespace ft
 				res = tmp->next;
 				tmp->prev->next = res;
 				res->prev =tmp->prev;
-				delete tmp;
+				delete_node(tmp);
 				--_size;
 				return (res);
 			}
 			iterator erase(iterator first, iterator last)
 			{
 				// first부터 last까지 지움
-				Node<T>	*tmp;
-				for (iterator it = first; it != last; ++it)
+				Node<T>	*tmp = first.getPtr();
+				iterator it = first;
+
+				while (it++ != last)
 				{
-					tmp = it.getPtr();
-					if (it == end())
-						return (end());
 					if (tmp == _head)
 						_head = tmp->next;
 					else
 						tmp->prev->next = tmp->next;
 					tmp->next->prev = tmp->prev;
-					delete tmp;
+					delete_node(tmp);
 					--_size;
+					tmp = it.getPtr();
 				}
 				return (tmp);
 			}
@@ -437,6 +445,7 @@ namespace ft
 				tmp->prev = pos->prev;
 				pos->prev = tmp;
 				tmp->next = pos;
+				++_size;
 			}
 			void splice(iterator position, List& x, iterator first, iterator last)
 			{
