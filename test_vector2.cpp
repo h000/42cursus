@@ -1,21 +1,22 @@
-#include "include/Vector.hpp"
+#include <vector>
 #include <iostream>
 
+using namespace std;
 
 template <class T>
-void iter_print(ft::Vector<T> &vector)
+void iter_print(vector<T> &vector)
 {
-	typedef typename ft::Vector<T>::iterator iter;
-	typedef typename ft::Vector<T>::reverse_iterator reverse_iter;
+	typename std::vector<T>::iterator iter;
+	typename std::vector<T>::reverse_iterator reverse_iter;
 	
 	std::cout << "with iterator :";
-	for (iter it = vector.begin(); it != vector.end(); ++it)
-		std::cout << ' ' << *it;
+	for (iter = vector.begin(); iter != vector.end(); ++iter)
+		std::cout << ' ' << *iter;
 	std::cout << '\n';
 	
 	std::cout << "with reverse_iterator :";
-	for (reverse_iter it = vector.rbegin(); it != vector.rend(); ++it)
-		std::cout << ' ' << *it;
+	for (reverse_iter = vector.rbegin(); reverse_iter != vector.rend(); ++reverse_iter)
+		std::cout << ' ' << *reverse_iter;
 	std::cout << '\n';
 }
 
@@ -25,29 +26,29 @@ int main (void)
 	std::cout << "======constructor==========" << std::endl;
 	// constructors used in the same order as described above:
 
-	ft::Vector<int> first;                                // empty vector of ints
+	vector<int> first;                                // empty vector of ints
 	std::cout << "Empty : " << std::boolalpha << first.empty() << std::endl;
 	std::cout << "size : " << std::boolalpha << first.size() << std::endl;
-	ft::Vector<int> second ((unsigned int)4,100);                       // four ints with value 100
+	vector<int> second ((unsigned int)4,100);                       // four ints with value 100
 	std::cout << "Empty : " << std::boolalpha << second.empty() << std::endl;
 	std::cout << "size : " << std::boolalpha << second.size() << std::endl;
 
 	iter_print(second);
-	ft::Vector<int> third(second.begin(),second.end());  // iterating through second
+	vector<int> third (second.begin(),second.end());  // iterating through second
 	iter_print(third);
-	ft::Vector<int> fourth (third);                       // a copy of third
+	vector<int> fourth (third);                       // a copy of third
 	iter_print(fourth);
 	// the iterator constructor can also be used to construct from arrays:
 	int myints[] = {16,2,77,29};
-	ft::Vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
+	vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
 
 	std::cout << "The contents of fifth are:";
-	for (ft::Vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
+	for (vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
 	std::cout << ' ' << *it;
 	std::cout << '\n';
 	std::cout << "======resize & size & capcity ==========" << std::endl;
 
-	ft::Vector<int> myvector;
+	vector<int> myvector;
 	for (int i=1;i<10;i++)
 		myvector.push_back(i);
 	std::cout << "size: " << (int) myvector.size() << '\n';
@@ -68,9 +69,9 @@ int main (void)
 	std::cout << '\n';
 
 	std::cout << "======reserve==========" << std::endl;
-	ft::Vector<int>::size_type sz;
+	vector<int>::size_type sz;
 
-	ft::Vector<int> x;
+	vector<int> x;
 	sz = x.capacity();
 	std::cout << "making x grow:\n";
 	for (int i=0; i<100; ++i) 
@@ -83,7 +84,7 @@ int main (void)
 		}
 	}
 
-	ft::Vector<int> y;
+	vector<int> y;
 	sz = y.capacity();
 	y.reserve(100);   // this is the only difference with x above
 	std::cout << "making y grow:\n";
@@ -97,8 +98,8 @@ int main (void)
     }
 	std::cout << "=======operator []=========" << std::endl;
 
-	ft::Vector<int> vec(10);
-	ft::Vector<int>::size_type sz2 = vec.size();
+	vector<int> vec(10);
+	vector<int>::size_type sz2 = vec.size();
 	for (unsigned i=0; i < sz2; i++) 
 		vec[i] = i;
 	for (unsigned i=0; i < sz2 / 2; i++)
@@ -142,13 +143,13 @@ int main (void)
 	
 	std::cout << "=======front & back & push_back & pop_back=========" << std::endl;
 	
-	ft::Vector<int> vec1;
-	ft::Vector<int> vec2;
-	ft::Vector<int> vec3;
+	vector<int> vec1;
+	vector<int> vec2;
+	vector<int> vec3;
 
 	vec1.assign ((unsigned int)7,100);             // 7 ints with a value of 100
 	iter_print(vec1);
-	ft::Vector<int>::iterator it;
+	vector<int>::iterator it;
 	it = vec1.begin() + 1;
 
 	vec2.assign (it, vec1.end() - 1); // the 5 central values of first
@@ -169,27 +170,27 @@ int main (void)
 	vec.erase(vec.begin(), vec.begin() + 3);
 	iter_print(vec);
 
-	// std::cout << "========swap=========" << std::endl;
+	std::cout << "========swap=========" << std::endl;
 	
-	// ft::Vector<int> a((unsigned int)3, 100);
-	// std::cout << "a: ";
-	// iter_print(a);
-	// ft::Vector<int> b((unsigned int)5, 200);
-	// a.swap(b);
-	// std::cout << "a: ";
-	// iter_print(a);
+	vector<int> a((unsigned int)3, 100);
+	std::cout << "a: ";
+	iter_print(a);
+	vector<int> b((unsigned int)5, 200);
+	a.swap(b);
+	std::cout << "a: ";
+	iter_print(a);
 
-	// std::cout << "========swap=========" << std::endl;
+	std::cout << "========swap=========" << std::endl;
 
-	// ft::Vector<int> foo ((unsigned int)3,100);   // three ints with a value of 100
-	// ft::Vector<int> bar ((unsigned int)2,200);   // two ints with a value of 200
+	vector<int> foo ((unsigned int)3,100);   // three ints with a value of 100
+	vector<int> bar ((unsigned int)2,200);   // two ints with a value of 200
 
-	// if (foo==bar) std::cout << "foo and bar are equal\n";
-	// if (foo!=bar) std::cout << "foo and bar are not equal\n";
-	// if (foo< bar) std::cout << "foo is less than bar\n";
-	// if (foo> bar) std::cout << "foo is greater than bar\n";
-	// if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
-	// if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
+	if (foo==bar) std::cout << "foo and bar are equal\n";
+	if (foo!=bar) std::cout << "foo and bar are not equal\n";
+	if (foo< bar) std::cout << "foo is less than bar\n";
+	if (foo> bar) std::cout << "foo is greater than bar\n";
+	if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
+	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 
 	
 	return (0);

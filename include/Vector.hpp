@@ -39,7 +39,7 @@ namespace ft
 		{
 			VectorIterator	tmp(*this);
 			this->operator++();
-			return (*this);
+			return (tmp);
 		}
 		VectorIterator&	operator--(void)
 		{
@@ -50,13 +50,13 @@ namespace ft
 		{
 			VectorIterator	tmp(*this);
 			this->operator--();
-			return (*this);
+			return (tmp);
 		}
-		VectorIterator	&operator+(difference_type n)
+		VectorIterator	operator+(difference_type n)
 		{
 			return (VectorIterator(_ptr + n));
 		}
-		VectorIterator	&operator-(difference_type n)
+		VectorIterator	operator-(difference_type n)
 		{
 			return (VectorIterator(_ptr - n));
 		}
@@ -72,43 +72,47 @@ namespace ft
 		}
 		bool	operator==(const VectorIterator &other) const
 		{
-			return (this->_ptr == other._ptr);
+			return (_ptr == other._ptr);
 		}
 		bool	operator!=(const VectorIterator &other) const
 		{
-			return (this->_ptr != other._ptr);
+			return (_ptr != other._ptr);
 		}
 		bool	operator<(const VectorIterator &other) const
 		{
-			return (this->_ptr < other._ptr);
+			return (_ptr < other._ptr);
 		}
 		bool	operator>(const VectorIterator &other) const
 		{
-			return (this->_ptr > other._ptr)
+			return (_ptr > other._ptr);
 		}
 		bool	operator<=(const VectorIterator &other) const
 		{
-			return (!(this->_ptr > other._ptr));
+			return (!(_ptr > other._ptr));
 		}
 		bool	operator>=(const VectorIterator &other) const
 		{
-			return (!(this->_ptr < other._ptr));
+			return (!(_ptr < other._ptr));
 		}
 		T&	operator*(void)
 		{
-			return (*this->_ptr);
+			return (*_ptr);
 		}
 		T*	operator->(void)
 		{
-			return (this->_ptr);
+			return (_ptr);
 		}
 		T& operator[](int n)
 		{
-			return (*(this->ptr_ + n));
+			return (*(_ptr + n));
+		}
+		T*	getPtr()
+		{
+			return (_ptr);
 		}
 	};
 
-	template <class T, class Alloc = allocator<T> >
+	template <class T, class Alloc = std::allocator<T> >
 	class Vector
 	{
 		private:
@@ -142,7 +146,7 @@ namespace ft
 			{
 				_ptr = _alloc.allocate(n + 1);
 				for (unsigned int i = 0; i < n; ++ i)
-					_alloc.construct(&_ptr[i], var);
+					_alloc.construct(&_ptr[i], val);
 			}
 			template <class InputIterator>
 			Vector(InputIterator first, InputIterator last,
@@ -150,24 +154,26 @@ namespace ft
 			: _ptr(nullptr), _size(0), _capacity(0)
 			{
 				_ptr = _alloc.allocate(1);
-				insert(end(), first, last);
-			}	
+				assign(first, last);
+				
+			}
 			Vector(const Vector& other)
+			: _ptr(nullptr), _size(0), _capacity(0)
 			{
 				*this = other;
 			}
 			~Vector()
 			{
 				for (unsigned int i = 0; i < _size; ++i)
-					alloc_.destroy(*(ptr + i));
-				alloc_.deallocate(_ptr, _capacity + 1);
+					_alloc.destroy((_ptr + i));
+				_alloc.deallocate(_ptr, _capacity + 1);
 			}
 			Vector&	operator=(const Vector<T>& other)
 			{
 				for (unsigned int i = 0; i < _size; ++i)
-					alloc_.destroy(*(ptr + i));
-				// alloc_.deallocate(_ptr, _capacity + 1);
-				insert(begin(), vector.begin(), vector.end());
+					_alloc.destroy((_ptr + i));
+				// _alloc_.deallocate(_ptr, _capacity + 1);
+				assign(other.begin(), other.end());
 				
 				return (*this);
 			};
@@ -185,7 +191,7 @@ namespace ft
 			}
 			const_iterator			end(void) const
 			{
-				return (iterator(_ptr + _size));
+				return (const_iterator(_ptr + _size));
 			}
 			reverse_iterator		rbegin(void)
 			{
@@ -214,11 +220,11 @@ namespace ft
 			}
 			void resize(size_type n, value_type val = value_type())
 			{
-				if (n < _size)
-					// remove 
+				while (n < _size)
+					pop_back();
 				if (n > _size)
+					insert(end(), (n - _size), val);
 					// insert n개 채워질 때까지, val로
-
 			}
 			size_type capacity() const
 			{
@@ -231,7 +237,7 @@ namespace ft
 			void reserve (size_type n)
 			{
 				if (n > max_size())
-					throw std::length_error;
+					throw std::length_error("length");
 
 				T*			new_ptr;
 
@@ -256,13 +262,13 @@ namespace ft
 			reference at (size_type n)
 			{
 				if (n >= _size)
-					throw std::out_of_range();
+					throw std::out_of_range("range");
 				return (_ptr[n]);
 			}
 			const_reference at (size_type n) const
 			{
 				if (n >= _size)
-					throw std::out_of_range();
+					throw std::out_of_range("range");
 				return (_ptr[n]);
 			}
 			reference front()
@@ -287,58 +293,114 @@ namespace ft
 			{
 				if (_size)
 					clear();
-				insert(end(), first, last);
+				int	n = 0;
+				for (InputIterator it = first; it != last; ++it)
+					++n;
+				if (n > _capacity)
+					reserve(n);
+				for (InputIterator it = first; it != last; ++it)
+				{
+					_alloc.construct(&_ptr[_size], *it);
+					++_size;
+				}
 			}
 			void	assign(size_type n, const value_type& val)
 			{
 				if (_size)
 					clear();
-				insert(end(), n, val);
+				if (n > _capacity)
+					reserve(n);
+				while (_size < n)
+				{
+					_alloc.construct(&_ptr[_size], val);
+					++_size;
+				}
 			}
 			void push_back(const value_type& val)
 			{
-				insert(end(), val);
+				if	(_capacity == 0)
+					reserve(1);
+				else if (_size + 1 > _capacity)
+					reserve(_capacity * 2);
+				_alloc.construct(&_ptr[_size], val);
+				++_size;
 			}
 			void pop_back()
 			{
-				erase(end() - 1);
+				--_size;
+				_alloc.destroy(_ptr +_size - 1);
 			}
 			iterator insert(iterator position, const value_type& val)
 			{
-				insert(position, 1, val);
+				insert(position, (size_type)1, val);
+				return (position);
 			}
 			void insert(iterator position, size_type n, const value_type& val)
 			{
-				if (_size + n > _capacity)
-					reserve(_size + n);
-				while (size < n)
-				{
-					_ptr[_size] = *pos;
-					*pos = val;
+				int	pos = 0;
+				for (iterator it = begin(); it != position; ++it)
 					++pos;
-					++size;
+
+				for (unsigned int i = 0; i < n; ++i)
+				{
+					push_back(_ptr[pos]);
+					_ptr[pos] = val;
 				}
 			}
 			template <class InputIterator>
-			void insert(iterator position, InputIterator first, InputIterator last);
+			void insert(iterator position, InputIterator first, InputIterator last)
 			{
-				if (_size + n > _capacity)
-					reserve(_size + n);
-				iterator	pos = position;
-				iterator	it = first;
-				whlie (it != end())
-				{
-					_ptr[_size] = *pos;
-					*pos = *it;
+				int	pos = 0;
+				for (iterator it = begin(); it != position; ++it)
 					++pos;
-					++it;
-					++size;
+
+				for (InputIterator it = first; it != last; ++it)
+				{
+					push_back(_ptr[pos]);
+					_ptr[pos] = *it;
 				}
 			}
-			iterator erase (iterator position);
-			iterator erase (iterator first, iterator last);
+			iterator erase(iterator position)
+			{
+				int	pos = 0;
+				iterator it = begin();
+				while(it++ != position)
+					++pos;
+				--_size;
+				iterator	ret = it;
+				while (pos < _size)
+					_ptr[pos++] = *it++;
+				_alloc.destroy(&(_ptr[pos]));
+				return (ret);
+			}
+			iterator erase(iterator first, iterator last)
+			{
+				int	old_size = _size;
+				int	pos = 0;
+				iterator it;
+				for (it = begin(); it != first; ++it)
+					++pos;
+				while (it != last)
+				{
+					--_size;
+					++it;
+				}
+				iterator	ret = it;
+				while (pos < _size)
+					_ptr[pos++] = *it++;
+				while (pos < old_size)
+					_alloc.destroy(&(_ptr[pos++]));
+				return (ret);
+			}
 			void swap (Vector& x);
-			void clear();
+			void clear()
+			{
+				while (_size)
+				{
+					--_size;
+					_alloc.destroy(&(_ptr[_size - 1]));
+				}
+			}
 	};
 	template <class T, class Alloc>
 	bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs);

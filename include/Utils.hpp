@@ -5,6 +5,7 @@
 # include <memory>
 # include <iostream>
 # include <limits>
+# include <exception>
 
 namespace ft
 {
