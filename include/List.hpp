@@ -6,8 +6,8 @@
 
 namespace ft
 {
-    template <class T>
-	class ListIterator : public std::iterator<bidirectional_iterator_tag, T>
+	template <class T>
+	class ListIterator : public iterator<bidirectional_iterator_tag, T>
 	{
 		private:
 			Node<T>*	_ptr;
@@ -100,7 +100,7 @@ namespace ft
 				node_alloc(_alloc).deallocate(node, 1);
 				node = nullptr;
 			}
-        public:
+		public:
 			typedef T		value_type;
 			typedef Alloc	allocator_type;
 			typedef typename Alloc::reference		reference;
@@ -653,9 +653,9 @@ namespace ft
 		for (; (l_it != lhs.end()) && (r_it != rhs.end()); ++l_it, ++r_it)
 		{
 			if (*l_it < *r_it)
-				return true;
+				return (true);
 			if (*r_it < *l_it)
-				return false;
+				return (false);
 		}
 		// lhs가 먼저 끝났으면 rhs보다 더 작고 나머지 경우는 작지 않으므로
 		return (l_it == lhs.end() && r_it != rhs.end());

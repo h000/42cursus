@@ -6,110 +6,104 @@
 
 namespace ft
 {
-	template <class T, class Category = random_access_iterator_tag>
-	class VectorIterator
+	template <class T>
+	class VectorIterator : public iterator<random_access_iterator_tag, T>
 	{
 		private:
 			T*		_ptr;
 		public:
-			typedef T				value_type;
-			typedef std::ptrdiff_t	difference_type;
-			typedef T*				pointer;
-			typedef T&				reference;
-			typedef Category		iterator_category;
-	
-		VectorIterator(void) : _ptr(nullptr) {}
-		virtual ~VectorIterator(void) {}
-		VectorIterator(T* ptr) : _ptr(ptr) {}
-		VectorIterator(const VectorIterator& other)
-		{
-			*this = other;
-		}
-		VectorIterator&	operator=(const VectorIterator& other)
-		{
-			_ptr = other._ptr;
-			return (*this);
-		}
-		VectorIterator&	operator++(void)
-		{
-			++_ptr;
-			return (*this);
-		}
-		VectorIterator	operator++(int)
-		{
-			VectorIterator	tmp(*this);
-			this->operator++();
-			return (tmp);
-		}
-		VectorIterator&	operator--(void)
-		{
-			--_ptr;
-			return (*this);
-		}
-		VectorIterator	operator--(int)
-		{
-			VectorIterator	tmp(*this);
-			this->operator--();
-			return (tmp);
-		}
-		VectorIterator	operator+(difference_type n)
-		{
-			return (VectorIterator(_ptr + n));
-		}
-		VectorIterator	operator-(difference_type n)
-		{
-			return (VectorIterator(_ptr - n));
-		}
-		VectorIterator	&operator+=(difference_type n)
-		{
-			_ptr += n;
-			return (*this);
-		}
-		VectorIterator	&operator-=(difference_type n)
-		{
-			_ptr -= n;
-			return (*this);
-		}
-		bool	operator==(const VectorIterator &other) const
-		{
-			return (_ptr == other._ptr);
-		}
-		bool	operator!=(const VectorIterator &other) const
-		{
-			return (_ptr != other._ptr);
-		}
-		bool	operator<(const VectorIterator &other) const
-		{
-			return (_ptr < other._ptr);
-		}
-		bool	operator>(const VectorIterator &other) const
-		{
-			return (_ptr > other._ptr);
-		}
-		bool	operator<=(const VectorIterator &other) const
-		{
-			return (!(_ptr > other._ptr));
-		}
-		bool	operator>=(const VectorIterator &other) const
-		{
-			return (!(_ptr < other._ptr));
-		}
-		T&	operator*(void)
-		{
-			return (*_ptr);
-		}
-		T*	operator->(void)
-		{
-			return (_ptr);
-		}
-		T& operator[](int n)
-		{
-			return (*(_ptr + n));
-		}
-		T*	getPtr()
-		{
-			return (_ptr);
-		}
+			VectorIterator(void) : _ptr(nullptr) {}
+			virtual ~VectorIterator(void) {}
+			VectorIterator(T* ptr) : _ptr(ptr) {}
+			VectorIterator(const VectorIterator& other)
+			{
+				*this = other;
+			}
+			VectorIterator&	operator=(const VectorIterator& other)
+			{
+				_ptr = other._ptr;
+				return (*this);
+			}
+			VectorIterator&	operator++(void)
+			{
+				++_ptr;
+				return (*this);
+			}
+			VectorIterator	operator++(int)
+			{
+				VectorIterator	tmp(*this);
+				this->operator++();
+				return (tmp);
+			}
+			VectorIterator&	operator--(void)
+			{
+				--_ptr;
+				return (*this);
+			}
+			VectorIterator	operator--(int)
+			{
+				VectorIterator	tmp(*this);
+				this->operator--();
+				return (tmp);
+			}
+			VectorIterator	operator+(difference_type n)
+			{
+				return (VectorIterator(_ptr + n));
+			}
+			VectorIterator	operator-(difference_type n)
+			{
+				return (VectorIterator(_ptr - n));
+			}
+			VectorIterator	&operator+=(difference_type n)
+			{
+				_ptr += n;
+				return (*this);
+			}
+			VectorIterator	&operator-=(difference_type n)
+			{
+				_ptr -= n;
+				return (*this);
+			}
+			bool	operator==(const VectorIterator &other) const
+			{
+				return (_ptr == other._ptr);
+			}
+			bool	operator!=(const VectorIterator &other) const
+			{
+				return (_ptr != other._ptr);
+			}
+			bool	operator<(const VectorIterator &other) const
+			{
+				return (_ptr < other._ptr);
+			}
+			bool	operator>(const VectorIterator &other) const
+			{
+				return (_ptr > other._ptr);
+			}
+			bool	operator<=(const VectorIterator &other) const
+			{
+				return (!(_ptr > other._ptr));
+			}
+			bool	operator>=(const VectorIterator &other) const
+			{
+				return (!(_ptr < other._ptr));
+			}
+			T&	operator*(void)
+			{
+				return (*_ptr);
+			}
+			T*	operator->(void)
+			{
+				return (_ptr);
+			}
+			T& operator[](int n)
+			{
+				return (*(_ptr + n));
+			}
+			T*	getPtr()
+			{
+				return (_ptr);
+			}
 	};
 
 	template <class T, class Alloc = std::allocator<T> >
@@ -234,10 +228,10 @@ namespace ft
 			{
 				return (_size == 0);
 			}
-			void reserve (size_type n)
+			void reserve(size_type n)
 			{
 				if (n > max_size())
-					throw std::length_error("length");
+					throw std::length_error("reserve: length error");
 
 				T*			new_ptr;
 
@@ -247,28 +241,29 @@ namespace ft
 				
 				//원래 ptr지우고 ptr = newptr & capacity = n
 				// clear()? ptr만 지우기?? deallocate?
-				
+				_alloc.deallocate(_ptr, _capacity + 1);
+
 				_ptr = new_ptr;
 				_capacity = n;
 			}
-			reference operator[] (size_type n)
+			reference operator[](size_type n)
 			{
 				return (_ptr[n]);
 			}
-			const_reference operator[] (size_type n) const
+			const_reference operator[](size_type n) const
 			{
 				return (_ptr[n]);
 			}
-			reference at (size_type n)
+			reference at(size_type n)
 			{
 				if (n >= _size)
-					throw std::out_of_range("range");
+					throw std::out_of_range("at: out of range");
 				return (_ptr[n]);
 			}
-			const_reference at (size_type n) const
+			const_reference at(size_type n) const
 			{
 				if (n >= _size)
-					throw std::out_of_range("range");
+					throw std::out_of_range("at: out of range");
 				return (_ptr[n]);
 			}
 			reference front()
@@ -392,7 +387,13 @@ namespace ft
 					_alloc.destroy(&(_ptr[pos++]));
 				return (ret);
 			}
-			void swap (Vector& x);
+			void swap (Vector& x)
+			{
+				std::swap(_ptr, x._ptr);
+				std::swap(_size, x._size);
+				std::swap(_capacity, x._capacity);
+				std::swap(_alloc, x._alloc);
+			}
 			void clear()
 			{
 				while (_size)
@@ -403,26 +404,60 @@ namespace ft
 			}
 	};
 	template <class T, class Alloc>
-	bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs);
+	bool	operator==(const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return (false);
+		for (unsigned int i = 0; i < lhs.size(); ++i)
+		{
+			if (lhs[i] != rhs[i])
+				return (false);
+		}
+		return (true);	
+	}
 	template <class T, class Alloc>
-	bool operator!= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs);
+	bool operator!=(const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		return (!(lhs == rhs));
+	}
 	template <class T, class Alloc>
-	bool operator<  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs);
-	template <class T, class Alloc>
-	bool operator<= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs);
-	template <class T, class Alloc>
- 	bool operator>  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs);
-	template <class T, class Alloc>
-	bool operator>= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs);
-	template <class T, class Alloc>
-	void swap (Vector<T,Alloc>& x, Vector<T,Alloc>& y);
+	bool operator<(const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		unsigned int	n;
+		if (lhs.size() < rhs.size())
+			n = lhs.size();
+		else
+			n = rhs.size();
 
-
-	//이건 뭐? vector<bool>
-		// template < class T, class Alloc = allocator<T> >
-		// class vector; // generic template
-		// template <class Alloc>
-		// class vector<bool,Alloc>;  // bool specialization
+		for (unsigned int i = 0; i < n; ++i)
+		{
+			if (lhs[i] < rhs[i])
+				return (true);
+			else if (lhs[i] > rhs[i])
+				return (false);
+		}
+		return (lhs.size() < rhs.size());
+	}
+	template <class T, class Alloc>
+	bool operator<= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		return (!(rhs < lhs));
+	}
+	template <class T, class Alloc>
+ 	bool operator>(const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		return (rhs < lhs);
+	}
+	template <class T, class Alloc>
+	bool operator>= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		return (!(lhs < rhs));
+	}
+	template <class T, class Alloc>
+	void	swap(Vector<T,Alloc>& x, Vector<T,Alloc>& y)
+	{
+		x.swap(y);
+	}
 }
 
 #endif
