@@ -74,7 +74,7 @@ namespace ft
 	class List
 	{
 		private:
-			typedef typename Alloc::template rebind<Node<T>>::other node_alloc;
+			typedef typename Alloc::template rebind<Node<T> >::other node_alloc;
 			
 			Node<T>*	_head;
 			Node<T>*	_tail;

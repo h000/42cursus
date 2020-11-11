@@ -33,7 +33,7 @@ int main (void)
 	std::cout << "size : " << std::boolalpha << second.size() << std::endl;
 
 	iter_print(second);
-	ft::Vector<int> third(second.begin(),second.end());  // iterating through second
+	ft::Vector<int> third (second.begin(),second.end());  // iterating through second
 	iter_print(third);
 	ft::Vector<int> fourth (third);                       // a copy of third
 	iter_print(fourth);

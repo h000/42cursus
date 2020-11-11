@@ -46,20 +46,20 @@ namespace ft
 				this->operator--();
 				return (tmp);
 			}
-			VectorIterator	operator+(difference_type n)
+			VectorIterator	operator+(int n)
 			{
 				return (VectorIterator(_ptr + n));
 			}
-			VectorIterator	operator-(difference_type n)
+			VectorIterator	operator-(int n)
 			{
 				return (VectorIterator(_ptr - n));
 			}
-			VectorIterator	&operator+=(difference_type n)
+			VectorIterator	&operator+=(int n)
 			{
 				_ptr += n;
 				return (*this);
 			}
-			VectorIterator	&operator-=(difference_type n)
+			VectorIterator	&operator-=(int n)
 			{
 				_ptr -= n;
 				return (*this);
