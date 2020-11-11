@@ -6,16 +6,10 @@
 # include <iostream>
 # include <limits>
 # include <exception>
+# include <utility>
 
 namespace ft
 {
-    template<class T>
-    struct Node
-    {
-        Node<T> *prev;
-        Node<T> *next;
-        T       data;
-    };
 }
 
 #endif

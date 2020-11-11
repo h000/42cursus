@@ -6,6 +6,14 @@
 
 namespace ft
 {
+	template<class T>
+    struct  Node
+    {
+        Node<T> *prev;
+        Node<T> *next;
+        T       data;
+    };
+	
 	template <class T>
 	class ListIterator : public iterator<bidirectional_iterator_tag, T>
 	{
