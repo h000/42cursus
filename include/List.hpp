@@ -20,7 +20,7 @@ namespace ft
 		private:
 			Node<T>*	_ptr;
 		public:
-			ListIterator(void) {}
+			ListIterator(void) : _ptr(nullptr) {}
 			virtual ~ListIterator(void) {}
 			ListIterator(Node<T>* ptr) : _ptr(ptr) {}
 			ListIterator(const ListIterator& other)
@@ -41,7 +41,7 @@ namespace ft
 			ListIterator	operator++(int)
 			{
 				ListIterator	tmp(*this);
-				this->operator++();
+				operator++();
 				return (tmp);
 			}
 			ListIterator&	operator--(void)
@@ -53,7 +53,7 @@ namespace ft
 			ListIterator	operator--(int)
 			{
 				ListIterator	tmp(*this);
-				this->operator--();
+				operator--();
 				return (tmp);
 			}
 			bool	operator==(const ListIterator &other) const

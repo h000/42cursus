@@ -32,7 +32,7 @@ namespace ft
 			VectorIterator	operator++(int)
 			{
 				VectorIterator	tmp(*this);
-				this->operator++();
+				operator++();
 				return (tmp);
 			}
 			VectorIterator&	operator--(void)
@@ -43,7 +43,7 @@ namespace ft
 			VectorIterator	operator--(int)
 			{
 				VectorIterator	tmp(*this);
-				this->operator--();
+				operator--();
 				return (tmp);
 			}
 			VectorIterator	operator+(int n)

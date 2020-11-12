@@ -7,6 +7,7 @@
 # include <limits>
 # include <exception>
 # include <utility>
+# include "Iterator.hpp"
 
 namespace ft
 {
