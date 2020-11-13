@@ -38,8 +38,8 @@ int main ()
 
 	std::cout << "====================\n";
 
-	//map<char , int> second (first.begin(),first.end());
-	map<char , int> second (first);
+	map<char , int> second (first.begin(),first.end());
+	// map<char , int> second (first);
 
 
 	std::cout << second['a'] << '\n';
@@ -49,12 +49,12 @@ int main ()
 
 	std::cout << "====================\n";
 
-	//map<char , int> third (second);
+	map<char , int> third (second);
 
-	// std::cout << third['a'] << '\n';
-	// std::cout << third['b'] << '\n';
-	// std::cout << third['c'] << '\n';
-	// std::cout << third['d'] << '\n';
+	std::cout << third['a'] << '\n';
+	std::cout << third['b'] << '\n';
+	std::cout << third['c'] << '\n';
+	std::cout << third['d'] << '\n';
 	
 	map<char, int , classcomp> fourth;                 // class as Compare
 

@@ -23,6 +23,7 @@ namespace ft
 			MapIterator&	operator=(const MapIterator& other)
 			{
 				_ptr = other._ptr;
+				_tail = other._tail;
 				return (*this);
 			}
 			MapIterator&	operator++(void)
@@ -137,26 +138,28 @@ namespace ft
 		
 			explicit Map(const key_compare& comp = key_compare(),
             	const allocator_type& alloc = allocator_type())
-			: _tree(comp, alloc), _size(0), _comp(comp), _alloc(alloc)
-			{
-
-			}
+			: _size(0), _comp(comp), _alloc(alloc), _tree(_comp, _alloc) {}
 			template <class InputIterator>
 			Map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type())
-			: _tree(comp, alloc), _size(0), _comp(comp), _alloc(alloc)
+			: _size(0), _comp(comp), _alloc(alloc), _tree(_comp, _alloc)
 			{
-
+				insert(first, last);
 			}
 			Map(const Map& x)
-			: _size(0)
+			: _size(0), _comp(x._comp), _alloc(x._alloc), _tree(_comp, _alloc)
 			{
 				*this = x;
 			}
 			~Map() {}
 			Map& operator=(const Map& x)
 			{
-				
+				// clear();
+				_comp = x._comp;
+				_alloc = x._alloc;
+
+				insert(x.begin(), x.end());
+				return (*this);
 			}
 
 			iterator				begin(void)
@@ -207,27 +210,36 @@ namespace ft
 
 			mapped_type&	operator[] (const key_type& k)
 			{
-				iterator	it = find(k);
-				if (it != end())
-					return (it->second);
 				// value_type = (k, mapped_type())인 새로운 쌍
-				iterator new_val;
-				new_val = insert(std::make_pair(k, mapped_type())).first;
-				return (new_val->second);
+				std::pair<iterator, bool> ret = insert(std::make_pair(k, mapped_type()));
+				return (ret.first->second);
 			}
 
 			std::pair<iterator,bool> insert(const value_type& val)
 			{
-				Node<value_type>*	node =_tree.find(val);
+				Node<value_type>*	node =_tree.find(val.first);
 				if (node) //만들어야할 것이 이미 존재하므로 false
-					return (std::make_pair(iterator(node), false));
+					return (std::make_pair(iterator(node, _tree.end()), false));
 				node = _tree.insert(_tree.root(), val);
 				++_size;
-				return (std::make_pair(iterator(node), true));
+				return (std::make_pair(iterator(node, _tree.end()), true));
 			}
-			iterator	insert(iterator position, const value_type& val);
+			iterator	insert(iterator position, const value_type& val)
+			{
+				Node<value_type>*	node = position.getPtr();
+				node = _tree.insert(node, val);
+				++_size;
+				return (iterator(node, _tree.end()));
+			}
 			template <class InputIterator>
-			void		insert(InputIterator first, InputIterator last);
+			void		insert(InputIterator first, InputIterator last)
+			{
+				for (InputIterator it = first; it != last; ++it)
+				{
+					_tree.insert(_tree.root(), *it);
+					++_size;
+				}
+			}
 			void		erase(iterator position);
 			size_type	erase(const key_type& k);
 			void		erase(iterator first, iterator last);
@@ -241,7 +253,10 @@ namespace ft
 			{
 				return (iterator(_tree.find(k), _tree.end()));
 			}
-			const_iterator find(const key_type& k) const;
+			const_iterator find(const key_type& k) const
+			{
+				return (const_iterator(_tree.find(k), _tree.end()));
+			}
 			size_type count(const key_type& k) const;
 			iterator lower_bound(const key_type& k);
 			const_iterator lower_bound(const key_type& k) const;

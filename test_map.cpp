@@ -25,65 +25,64 @@ int main ()
 	first['c'] = 50;
 	first['d'] = 70;
 
-	// std::cout << first['a'] << '\n';
-	// std::cout << first['b'] << '\n';
-	// std::cout << first['c'] << '\n';
-	// std::cout << first['d'] << '\n';
+	std::cout << first['a'] << '\n';
+	std::cout << first['b'] << '\n';
+	std::cout << first['c'] << '\n';
+	std::cout << first['d'] << '\n';
 
-	// std::cout << std::boolalpha << "Empty? : " << first.empty() << std::endl;
-	// std::cout << "Size : " << first.size() << std::endl;
-	// std::cout << "max Size : " << first.max_size() << std::endl;
+	std::cout << std::boolalpha << "Empty? : " << first.empty() << std::endl;
+	std::cout << "Size : " << first.size() << std::endl;
+	std::cout << "max Size : " << first.max_size() << std::endl;
 
-	// std::cout << "====================\n";
+	std::cout << "====================\n";
 
-	// //ft::Map<char , int> second (first.begin(),first.end());
-	// ft::Map<char , int> second (first);
+	ft::Map<char , int> second (first.begin(),first.end());
 
 
-	// std::cout << second['a'] << '\n';
-	// std::cout << second['b'] << '\n';
-	// std::cout << second['c'] << '\n';
-	// std::cout << second['d'] << '\n';
+	std::cout << second['a'] << '\n';
+	std::cout << second['b'] << '\n';
+	std::cout << second['c'] << '\n';
+	std::cout << second['d'] << '\n';
 
-	// std::cout << "====================\n";
+	std::cout << "====================\n";
 
-	// //ft::Map<char , int> third (second);
+	ft::Map<char , int> third (second);
 
-	// // std::cout << third['a'] << '\n';
-	// // std::cout << third['b'] << '\n';
-	// // std::cout << third['c'] << '\n';
-	// // std::cout << third['d'] << '\n';
+	std::cout << third['a'] << '\n';
+	std::cout << third['b'] << '\n';
+	std::cout << third['c'] << '\n';
+	std::cout << third['d'] << '\n';
 	
-	// ft::Map<char, int , classcomp> fourth;                 // class as Compare
+	ft::Map<char, int , classcomp> fourth;                 // class as Compare
 
-	// bool(*fn_pt)(char,char) = fncomp;
-	// ft::Map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
+	bool(*fn_pt)(char,char) = fncomp;
+	ft::Map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
 
-	// std::cout << "=========Iterators=========\n";
+	std::cout << "=========Iterators=========\n";
 
-	// ft::Map<char,int> mymap;
+	ft::Map<char,int> mymap;
 
-	// mymap['x'] = 100;
-	// mymap['y'] = 200;
-	// mymap['z'] = 300;
+	mymap['x'] = 100;
+	mymap['y'] = 200;
+	mymap['z'] = 300;
 
-	// std::cout << "print with Itreators :\n";
-	// for (ft::Map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    // 	std::cout << it->first << " => " << it->second << '\n';
-	// std::cout << "print with ReverseItreators :\n";
-	// for (ft::Map<char,int>::reverse_iterator rit = mymap.rbegin() ; rit != mymap.rend() ; ++rit)
-	// 	std::cout << rit->first << " => " << rit->second << '\n';
+	std::cout << "print with Itreators :\n";
+	for (ft::Map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+    	std::cout << it->first << " => " << it->second << '\n';
+	std::cout << "print with ReverseItreators :\n";
+	for (ft::Map<char,int>::reverse_iterator rit = mymap.rbegin() ; rit != mymap.rend() ; ++rit)
+		std::cout << rit->first << " => " << rit->second << '\n';
 
-	// std::cout << "=========Erase=========\n";
+	std::cout << "=========Erase=========\n";
 
-	// ft::Map<char , int> map2;
+	ft::Map<char , int> map2;
 	
-	// map2['a']=10;
-	// map2['b']=20;
-	// map2['c']=30;
-	// map2['d']=40;
-	// map2['e']=50;
-	// map2['f']=60;
+	map2['a']=10;
+	map2['b']=20;
+	map2['c']=30;
+	map2['d']=40;
+	map2['e']=50;
+	map2['f']=60;
 	
 	/*
 	**	   d
@@ -93,13 +92,13 @@ int main ()
 	** a   c   f
 	*/
 	
-	// ft::Map<char,int>::iterator it;
+	ft::Map<char,int>::iterator it;
 	
-	// // when no child
-	// std::cout << "when no child" << std::endl;
-	// ft::Map<char , int> map1;
+	// when no child
+	std::cout << "when no child" << std::endl;
+	ft::Map<char , int> map1;
 
-	// map1.insert(map2.begin(), map2.end());
+	map1.insert(map2.begin(), map2.end());
     // map1.erase('c');                  // erasing by key
 	// for (it=map1.begin(); it!=map1.end(); ++it)
 	// 	std::cout << it->first << " => " << it->second << '\n';
