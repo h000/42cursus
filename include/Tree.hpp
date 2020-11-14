@@ -198,13 +198,8 @@ namespace ft
 
 				if (!node->left || !node->right)
 				{
-					enum Color
 					tmp = node->left ? node->left : node->right;
-					if (tmp == nullptr) //no children
-					{
-						delete_node(node);
-					}
-					else //one child
+					if (tmp != nullptr) //one child
 					{
 						tmp->parent = node->parent;
 						if (node->parent == nullptr)
@@ -213,9 +208,15 @@ namespace ft
 							node->parent->right = tmp;
 						else
 							node->parent->left = tmp;
-						delete_node(node);
 					}
-					delete_fixup(tmp);
+					if (node->color == BLACK)
+					{
+						if (tmp && tmp->color == RED)
+							tmp->color == BLACK;
+						else
+							delete_fixup(tmp);
+					}
+					delete_node(node);
 				}
 				else //two children
 				{
@@ -242,14 +243,62 @@ namespace ft
 			}
 			void	delete_fixup(Node<pair>* node)
 			{
-				if (node->parent == nullptr || node->color == RED)
-					node->color = BLACK;
-				else
+				if (node->parent != nullptr)
 				{
 					Node<pair>*	s = sibling(node);
 
 					if (s->color == RED)
+					{
+						node->parent->color = RED;
+						s->color = BLACK;
+						if (node == node->parent->left)
+							rotate_left(node->parent);
+						else
+							rotate_right(node->parent);
+						s = sibling(node);
+					}
+					if ((node->parent->color == BLACK) && (s->color == BLACK)
+					&& (s->left->color == BLACK) && (s->right->color == BLACK))
+					{
+						s->color = RED;
+						delete_fixup(node->parent);
+					}
+					else
+					{
+						if (node->parent->color == RED && s->color == BLACK
+						&& s->left->color == BLACK && s->right->color == BLACK)
+						{
+							s->color = RED;
+							node->parent->color = BLACK;
+						}
+						else
+						{
+							if (s->color == BLACK)
+							{
+								if (n == n->parent->left && s->left->color == BLACK
+								&& s->right->color == BLACK)
+								{
+									s->color = RED;
+									s->right->color = BLACK;
+									rotate_left(s);
+									s= sibling(n);
+								}
+							}
+							s->color = node->parent->color;
+							node->parent->color = BLACK;
 
+							if (node == node->parent->left)
+							{
+								s->right->color = BLACK;
+								rotate_left(node->parent);
+							}
+							else
+							{
+								s->left->color = BLACK;
+								rotate_right(node->parent);
+							}
+						}
+					}
 				}
 			}
 		public:
