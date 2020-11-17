@@ -122,7 +122,17 @@ namespace ft
 			typedef	T									mapped_type;
 			typedef std::pair<const key_type, mapped_type>	value_type;
 			typedef Compare								key_compare;
-			class 	value_compare;
+			class 	value_compare
+			{
+				friend class Map;
+
+				private:
+					Compare	comp;
+					value_compare(Compare c) : comp(c) {};
+				// public:
+					
+
+			}
 			
 			typedef Alloc								allocator_type;
 			typedef typename Alloc::reference			reference;
@@ -240,14 +250,44 @@ namespace ft
 					++_size;
 				}
 			}
-			void		erase(iterator position);
-			size_type	erase(const key_type& k);
-			void		erase(iterator first, iterator last);
+			void		erase(iterator position)
+			{
+				Node<value_type>*	node = position.getPtr();
+				_tree.erase(node);
+				--_size;
+			}
+			size_type	erase(const key_type& k)
+			{
+				Node<value_type>*	node;
+
+				if ((node = _tree.find(k)))
+				{	
+					_tree.erase(node);
+					--_size;
+					return (1);
+				}
+				return (0);
+			}
+			void		erase(iterator first, iterator last)
+			{
+				for (iterator it = first; it != last; ++it)
+				{
+					Node<value_type>*	node = it.getPtr();
+					_tree.insert(_tree.erase(node));
+					--_size;
+				}
+			}
 			void		swap(Map& x);
 			void		clear();
 
-			key_compare key_comp() const;
-			value_compare value_comp() const;
+			key_compare key_comp() const
+			{
+				return (_comp);
+			}
+			value_compare value_comp() const
+			{
+				return (value_compare(_comp));
+			}
 
 			iterator find(const key_type& k)
 			{
@@ -257,13 +297,62 @@ namespace ft
 			{
 				return (const_iterator(_tree.find(k), _tree.end()));
 			}
-			size_type count(const key_type& k) const;
-			iterator lower_bound(const key_type& k);
-			const_iterator lower_bound(const key_type& k) const;
-			iterator upper_bound(const key_type& k);
-			const_iterator upper_bound(const key_type& k) const;
-			std::pair<const_iterator,const_iterator> equal_range(const key_type& k) const;
-			std::pair<iterator,iterator>             equal_range(const key_type& k);
+			size_type count(const key_type& k) const
+			{
+				return (find(k) != end());
+			}
+			iterator lower_bound(const key_type& k)
+			{
+				iterator it = begin();
+				while (it != end())
+				{
+					if (_comp(it->first, k) <= 0)
+						return (it);
+					++it;
+				}
+				return (end());
+			}
+			const_iterator lower_bound(const key_type& k) const
+			{
+				const_iterator it = begin();
+				while (it != end())
+				{
+					if (_comp(it->first, k) <= 0)
+						return (it);
+					++it;
+				}
+				return (end());
+			}
+			iterator upper_bound(const key_type& k)
+			{
+				iterator it = begin();
+				while (it != end())
+				{
+					if (_comp(it->first, k) <=0 && it->first != k)
+						return (it);
+					++it;
+				}
+				return (end());
+			}
+			const_iterator upper_bound(const key_type& k) const
+			{
+				const_iterator it = begin();
+				while (it != end())
+				{
+					if (_comp(it->first, k) <=0 && it->first != k)
+						return (it);
+					++it;
+				}
+				return (end());
+			}
+			std::pair<const_iterator,const_iterator> equal_range(const key_type& k) const
+			{
+				return std::pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k));
+			}
+			std::pair<iterator,iterator>             equal_range(const key_type& k)
+			{
+				return return (std::pair<iterator, iterator>(lower_bound(k), upper_bound(k)));
+			}
 	};
 
 }

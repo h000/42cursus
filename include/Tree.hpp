@@ -212,7 +212,7 @@ namespace ft
 					if (node->color == BLACK)
 					{
 						if (tmp && tmp->color == RED)
-							tmp->color == BLACK;
+							tmp->color = BLACK;
 						else
 							delete_fixup(tmp);
 					}
@@ -275,13 +275,13 @@ namespace ft
 						{
 							if (s->color == BLACK)
 							{
-								if (n == n->parent->left && s->left->color == BLACK
+								if (node == node->parent->left && s->left->color == BLACK
 								&& s->right->color == BLACK)
 								{
 									s->color = RED;
 									s->right->color = BLACK;
 									rotate_left(s);
-									s= sibling(n);
+									s= sibling(node);
 								}
 							}
 							s->color = node->parent->color;
@@ -345,7 +345,7 @@ namespace ft
 			
 			void		erase(Node<pair>* node)
 			{
-				
+				remove_node(node);
 			}
 			
 			Node<pair>*	find(const Key& k)
@@ -370,6 +370,7 @@ namespace ft
 				Node<pair>*	min = root;
 				while (min && min->left)
 					min = min->left;
+				return (min);
 			}
 	};
 
