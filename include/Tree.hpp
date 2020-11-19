@@ -44,11 +44,11 @@ namespace ft
 				node_alloc(_alloc).construct(n, tmp);
 				return (n);
 			}
-			void		delete_node(Node<pair>* node)
+			void		delete_node(Node<pair>** node)
 			{
-				node_alloc(_alloc).destroy(node);
-				node_alloc(_alloc).deallocate(node, 1);
-				node = nullptr;
+				node_alloc(_alloc).destroy(*node);
+				node_alloc(_alloc).deallocate(*node, 1);
+				*node = nullptr;
 			}
 			void		rotate_right(Node<pair>* node)
 			{
@@ -193,65 +193,82 @@ namespace ft
 			}
 			void	remove_node(Node<pair>* node)
 			{
-				// if _tail == node ||  _head == node
+				// std::cout << _root->data.first << std::endl;
+				if (_head == node)
+					_head = node->parent;	
+				if (_tail == node)
+					_tail = node->parent;
+				
 				Node<pair>* tmp;
-
-				if (!node->left || !node->right)
-				{
+std::cout << node->data.first << std::endl;
+				if (!node->left || !node->right) //0 or 1 child
 					tmp = node->left ? node->left : node->right;
-					if (tmp != nullptr) //one child
-					{
-						tmp->parent = node->parent;
-						if (node->parent == nullptr)
-							_root = tmp;
-						else if (node->parent->right == node)
-							node->parent->right = tmp;
-						else
-							node->parent->left = tmp;
-					}
-					if (node->color == BLACK)
-					{
-						if (tmp && tmp->color == RED)
-							tmp->color = BLACK;
-						else if (!tmp)
-							delete_fixup(node);
-						else
-							delete_fixup(tmp);
-					}
-					delete_node(node);
-				}
 				else //two children
 				{
-					std::cout << node->data.first << std::endl;
+					Node<pair>*	new_node;
+
 					tmp = min(node->right); // 원래 노드와 교체할 노드
-					std::cout << tmp->data.first << std::endl;
-					std::cout << _root->data.first << std::endl;
-					//원래 있던 자리 정리
-					tmp->parent->left = tmp->right;
-					tmp->right->parent = tmp->parent;
-					//node 자리로 옮기기
+
+					//node 자리에 새 노드
+					new_node = create_node(tmp->data, node->left, node->right, node->parent, node->color);
+					if (node->parent == nullptr)
+						_root = new_node;
+					else if (node->parent->right == node)
+						node->parent->right = new_node;
+					else
+						node->parent->left = new_node;
+					node->left->parent = new_node;
+					node->right->parent = new_node;
+					delete_node(&node);
+
+					//원래 있던 자리는 0 또는 1 child
+					node = tmp;
+					tmp = tmp->right;	
+				}
+				if (tmp != nullptr) //one child, else no child
+				{
 					tmp->parent = node->parent;
-					tmp->left = node->left;
-					tmp->right = node->right;
-					tmp->color = node->color;
 					if (node->parent == nullptr)
 						_root = tmp;
 					else if (node->parent->right == node)
 						node->parent->right = tmp;
 					else
 						node->parent->left = tmp;
-					node->left->parent = tmp;
-					node->right->parent = tmp;
-
-					delete_node(node);
 				}
+				if (node->color == BLACK)
+				{
+					if (tmp && tmp->color == RED)
+						tmp->color = BLACK;
+					else if (!tmp)
+						delete_fixup(node);
+					else
+						delete_fixup(tmp);
+				}
+				if (tmp == nullptr)
+				{
+					if (node->parent == nullptr)
+						_root = tmp;
+					else
+					{
+						node->parent->right = tmp;
+						node->parent->left = tmp;
+					}
+				}
+				delete_node(&node);
 			}
 			void	delete_fixup(Node<pair>* node)
 			{
 				if (node->parent != nullptr)
 				{
 					Node<pair>*	s = sibling(node);
-
+					
+					if (!s)
+					{
+						node->color = RED;
+						if (node->parent->color == RED)
+							delete_fixup(node->parent);
+						return ;
+					}
 					if (s->color == RED) //형제가 red면 부모는 black, 색을 서로 바꾸고 두개를 바꿔주면(rotate) 형제가 black이 된다.
 					{
 						node->parent->color = RED;
@@ -277,23 +294,21 @@ namespace ft
 					} //(빨,검,검)
 					else
 					{
-						if (s->color == BLACK)
-						{//s가 검은색일때 (근데 s는 원래 계속 검정이었음)
-							if ((node == node->parent->left)
-							&& (s->right && s->right->color == BLACK) && (s->left && s->left->color == RED))
-							{ //노드가 왼쪽에 있고 형제의 오른쪽색이 검정, 왼쪽색이 빨간색이면 형제랑 왼쪽색을 바꿈
-								s->color = RED;
-								s->left->color = BLACK;
-								rotate_right(s);
-							} //(?,빨,검)
-							else if ((node == node->parent->right) &&
-							(s->left && s->left->color == BLACK) && (s->right && s->right->color == RED))
-							{//위랑 비슷한 케이스인데 노드가 오른쪽에 있을 때
-								s->color = RED;
-								s->right->color = BLACK;
-								rotate_left(s);
-							} //(?,검,빨)
-						} //아래부터는 모두 s가 빨간색이다.
+						if ((node == node->parent->left)
+						&& (s->right && s->right->color == BLACK) && (s->left && s->left->color == RED))
+						{ //노드가 왼쪽에 있고 형제의 오른쪽색이 검정, 왼쪽색이 빨간색이면 형제랑 왼쪽색을 바꿈
+							s->color = RED;
+							s->left->color = BLACK;
+							rotate_right(s);
+						} //(?,빨,검)
+						else if ((node == node->parent->right) &&
+						(s->left && s->left->color == BLACK) && (s->right && s->right->color == RED))
+						{//위랑 비슷한 케이스인데 노드가 오른쪽에 있을 때
+							s->color = RED;
+							s->right->color = BLACK;
+							rotate_left(s);
+						} //(?,검,빨)
+						//아래부터는 모두 s가 빨간색이다.
 						s = sibling(node);
 						s->color = node->parent->color;
 						node->parent->color = BLACK;

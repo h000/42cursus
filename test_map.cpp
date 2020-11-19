@@ -125,16 +125,16 @@ int main ()
 
 	for (it=map4.begin(); it!=map4.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
-	// for (ft::Map<char,int>::reverse_iterator it=map4.rbegin(); it!=map4.rend() ; ++it)
-	// 	std::cout << it->first << " => " << it->second << '\n';
+	for (ft::Map<char,int>::reverse_iterator it=map4.rbegin(); it!=map4.rend() ; ++it)
+		std::cout << it->first << " => " << it->second << '\n';
 
-	// ft::Map<char , int> map5;
-	// map5.insert(map2.begin(), map2.end());
+	ft::Map<char , int> map5;
+	map5.insert(map2.begin(), map2.end());
 	
-	// it = map5.find('b');
-	// for (ft::Map<char,int>::iterator iter=map5.begin(); iter!=map5.end(); ++iter)
-	// 	std::cout << iter->first << " => " << iter->second << '\n';
-	// map5.erase (it);                   // erasing by iterator
+	it = map5.find('b');
+	for (ft::Map<char,int>::iterator iter=map5.begin(); iter!=map5.end(); ++iter)
+		std::cout << iter->first << " => " << iter->second << '\n';
+	map5.erase (it);                   // erasing by iterator
 
 	// map5.erase ('c');                  // erasing by key
 

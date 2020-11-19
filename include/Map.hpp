@@ -265,7 +265,7 @@ namespace ft
 				Node<value_type>*	node;
 
 				if ((node = _tree.find(k)))
-				{	
+				{
 					_tree.erase(node);
 					--_size;
 					return (1);
@@ -274,11 +274,17 @@ namespace ft
 			}
 			void		erase(iterator first, iterator last)
 			{
-				for (iterator it = first; it != last; ++it)
+				iterator it = first;
+				while (it != last)
 				{
-					Node<value_type>*	node = it.getPtr();
-					_tree.erase(node);
+					iterator	tmp = it;
+					++tmp;
+					std::cout << it->first << std::endl;
+					_tree.erase(it.getPtr());
 					--_size;
+					it = tmp;
+					std::cout << "!" << std::endl;
+
 				}
 			}
 			void		swap(Map& x);
