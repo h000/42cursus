@@ -48,7 +48,7 @@ namespace ft
 			{
 				node_alloc(_alloc).destroy(*node);
 				node_alloc(_alloc).deallocate(*node, 1);
-				*node = nullptr;
+				*node = 0;
 			}
 			void		rotate_right(Node<pair>* node)
 			{
@@ -193,22 +193,12 @@ namespace ft
 			}
 			void	remove_node(Node<pair>* node)
 			{
-				// std::cout << _root->data.first << std::endl;
-				if (_head == node)
-					_head = node->parent;	
-				if (_tail == node)
-					_tail = node->parent;
-				
 				Node<pair>* tmp;
-std::cout << node->data.first << std::endl;
-				if (!node->left || !node->right) //0 or 1 child
-					tmp = node->left ? node->left : node->right;
-				else //two children
+
+				if (node->left && node->right) //two children
 				{
 					Node<pair>*	new_node;
-
 					tmp = min(node->right); // 원래 노드와 교체할 노드
-
 					//node 자리에 새 노드
 					new_node = create_node(tmp->data, node->left, node->right, node->parent, node->color);
 					if (node->parent == nullptr)
@@ -223,8 +213,8 @@ std::cout << node->data.first << std::endl;
 
 					//원래 있던 자리는 0 또는 1 child
 					node = tmp;
-					tmp = tmp->right;	
 				}
+				tmp = node->left ? node->left : node->right;
 				if (tmp != nullptr) //one child, else no child
 				{
 					tmp->parent = node->parent;
@@ -247,25 +237,27 @@ std::cout << node->data.first << std::endl;
 				if (tmp == nullptr)
 				{
 					if (node->parent == nullptr)
-						_root = tmp;
-					else
-					{
+						_root = nullptr;
+					else if (node->parent->right == node)
 						node->parent->right = tmp;
+					else
 						node->parent->left = tmp;
-					}
 				}
-				delete_node(&node);
+				delete_node(&node);	
+				_head = min(_root);	
+				_tail = max(_root);
 			}
 			void	delete_fixup(Node<pair>* node)
 			{
 				if (node->parent != nullptr)
 				{
 					Node<pair>*	s = sibling(node);
-					
 					if (!s)
-					{
+					{//!tmp 여서 node가 들어왔을때만
 						node->color = RED;
 						if (node->parent->color == RED)
+							node->parent->color = BLACK;
+						else
 							delete_fixup(node->parent);
 						return ;
 					}
@@ -315,12 +307,14 @@ std::cout << node->data.first << std::endl;
 
 						if (node == node->parent->left)
 						{ //노드가 왼쪽에 있으면
-							s->right->color = BLACK;
+							if (s->right)
+								s->right->color = BLACK;
 							rotate_left(node->parent);
 						}
 						else
 						{
-							s->left->color = BLACK;
+							if (s->left)
+								s->left->color = BLACK;
 							rotate_right(node->parent);
 						}
 					}
@@ -342,6 +336,7 @@ std::cout << node->data.first << std::endl;
 				_tail = x._tail;
 				_comp = x._comp;
 				_alloc = x._alloc;
+				return (*this);
 			}
 
 			Node<pair>*	begin() const
@@ -393,9 +388,19 @@ std::cout << node->data.first << std::endl;
 			Node<pair>* min(Node<pair>* root)
 			{
 				Node<pair>*	min = root;
+				
 				while (min && min->left)
 					min = min->left;
 				return (min);
+			}
+
+			Node<pair>* max(Node<pair>* root)
+			{
+				Node<pair>*	max = root;
+				
+				while (max && max->right)
+					max = max->right;
+				return (max);
 			}
 	};
 

@@ -134,7 +134,7 @@ namespace ft
 				_tail = create_node(nullptr, nullptr, 0);
 				_head = _tail;
 
-				insert(_tail, n, val);
+				insert(end(), (size_type)n, val);
 			}
 			template <class InputIterator>
 			List(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
@@ -143,7 +143,7 @@ namespace ft
 				_tail = create_node(nullptr, nullptr, 0);
 				_head = _tail;
 
-				insert(_tail, first, last);
+				insert(end(), first, last);
 			}
 			List(const List& other)
 			: _head(nullptr), _tail(nullptr), _size(0)

@@ -165,10 +165,13 @@ namespace ft
 			{
 				*this = x;
 			}
-			~Map() {}
+			~Map()
+			{
+				clear();
+			}
 			Map& operator=(const Map& x)
 			{
-				// clear();
+				clear();
 				_comp = x._comp;
 				_alloc = x._alloc;
 
@@ -275,20 +278,37 @@ namespace ft
 			void		erase(iterator first, iterator last)
 			{
 				iterator it = first;
-				while (it != last)
-				{
-					iterator	tmp = it;
-					++tmp;
-					std::cout << it->first << std::endl;
-					_tree.erase(it.getPtr());
-					--_size;
-					it = tmp;
-					std::cout << "!" << std::endl;
+				key_type key, tmp, last_key;
 
+				if (last != end())
+					last_key = last->first;
+				else
+					last_key = 0;
+				if (first != last)
+					key = first->first;
+				while (key != last_key && it != last)
+				{
+					++it;
+					if (it != end())
+						tmp = it->first;
+					else
+						tmp = 0;
+					erase(key);
+					it = find(tmp);
+					key = tmp;
 				}
 			}
-			void		swap(Map& x);
-			void		clear();
+			void		swap(Map& x)
+			{
+				std::swap(_tree, x._tree);
+				std::swap(_size, x._size);
+				std::swap(_comp, x._comp);
+				std::swap(_alloc, x._alloc);
+			}
+			void		clear()
+			{
+				erase(begin(), end());
+			}
 
 			key_compare key_comp() const
 			{
