@@ -129,14 +129,13 @@ namespace ft
 			typedef size_t							size_type;
 
 			explicit Vector(const allocator_type& alloc = allocator_type())
-			: _ptr(nullptr), _size(0), _capacity(0)
+			: _ptr(nullptr), _size(0), _capacity(0), _alloc(alloc)
 			{
-				//end()를 위해 alloc??
 				_ptr = _alloc.allocate(1);
 			}	
 			explicit Vector(size_type n, const value_type& val = value_type(),
 							const allocator_type& alloc = allocator_type())
-			: _ptr(nullptr), _size(n), _capacity(n)
+			: _ptr(nullptr), _size(n), _capacity(n), _alloc(alloc)
 			{
 				_ptr = _alloc.allocate(n + 1);
 				for (unsigned int i = 0; i < n; ++ i)
@@ -145,7 +144,7 @@ namespace ft
 			template <class InputIterator>
 			Vector(InputIterator first, InputIterator last,
 							const allocator_type& alloc = allocator_type())
-			: _ptr(nullptr), _size(0), _capacity(0)
+			: _ptr(nullptr), _size(0), _capacity(0), _alloc(alloc)
 			{
 				_ptr = _alloc.allocate(1);
 				assign(first, last);
@@ -288,7 +287,7 @@ namespace ft
 			{
 				if (_size)
 					clear();
-				int	n = 0;
+				size_type	n = 0;
 				for (InputIterator it = first; it != last; ++it)
 					++n;
 				if (n > _capacity)
@@ -382,7 +381,7 @@ namespace ft
 			}
 			iterator erase(iterator position)
 			{
-				int	pos = 0;
+				size_t	pos = 0;
 				iterator it = begin();
 				while(it++ != position)
 					++pos;
@@ -395,8 +394,8 @@ namespace ft
 			}
 			iterator erase(iterator first, iterator last)
 			{
-				int	old_size = _size;
-				int	pos = 0;
+				size_type	old_size = _size;
+				size_type	pos = 0;
 				iterator it;
 				for (it = begin(); it != first; ++it)
 					++pos;

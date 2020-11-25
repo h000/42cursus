@@ -111,12 +111,10 @@ namespace ft
 	class Map
 	{
 		private:
-			RedBlackTree<Key, T, Compare, Alloc>	_tree;
-
 			size_t	_size;
 			Compare	_comp;
 			Alloc	_alloc;
-
+			RedBlackTree<Key, T, Compare, Alloc>	_tree;
 		public:
 			typedef	Key									key_type;
 			typedef	T									mapped_type;
@@ -152,16 +150,16 @@ namespace ft
 		
 			explicit Map(const key_compare& comp = key_compare(),
             	const allocator_type& alloc = allocator_type())
-			: _size(0), _comp(comp), _alloc(alloc), _tree(_comp, _alloc) {}
+			: _size(0), _comp(comp), _alloc(alloc), _tree(comp, alloc) {}
 			template <class InputIterator>
 			Map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type())
-			: _size(0), _comp(comp), _alloc(alloc), _tree(_comp, _alloc)
+			: _size(0), _comp(comp), _alloc(alloc), _tree(comp, alloc)
 			{
 				insert(first, last);
 			}
 			Map(const Map& x)
-			: _size(0), _comp(x._comp), _alloc(x._alloc), _tree(_comp, _alloc)
+			: _size(0), _comp(x._comp), _alloc(x._alloc), _tree(x._comp, x._alloc)
 			{
 				*this = x;
 			}
@@ -286,6 +284,8 @@ namespace ft
 					last_key = 0;
 				if (first != last)
 					key = first->first;
+				else
+					return ;
 				while (key != last_key && it != last)
 				{
 					++it;

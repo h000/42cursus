@@ -17,7 +17,7 @@ namespace ft
 		enum Color	color;
 
 		Node(pair data, Node* left, Node* right, Node* parent, enum Color color)
-		: data(data), right(right), left(left), parent(parent), color(color) {}
+		: data(data), left(left), right(right), parent(parent), color(color) {}
 	};
 
 	template<class Key, class T, class Compare, class Alloc>
