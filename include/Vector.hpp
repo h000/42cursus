@@ -327,33 +327,58 @@ namespace ft
 			}
 			iterator insert(iterator position, const value_type& val)
 			{
-				insert(position, (size_type)1, val);
+				insert(position, (size_t)1, val);
 				return (position);
 			}
 			void insert(iterator position, size_type n, const value_type& val)
 			{
-				int	pos = 0;
-				for (iterator it = begin(); it != position; ++it)
-					++pos;
-
-				for (unsigned int i = 0; i < n; ++i)
-				{
-					push_back(_ptr[pos]);
-					_ptr[pos] = val;
+				while (1)
+				{				
+					if	(_capacity == 0)
+						reserve(1);
+					else if (_size + n > _capacity)
+						reserve(_capacity * 2);
+					else
+						break;
 				}
+				int i = 0;
+				for (iterator it = position; it != end(); ++it)
+				{
+					_alloc.construct(&_ptr[_size + n - i], _ptr[_size - i]);
+					++i;
+				}
+				for (; i < 0; --i)
+					_ptr[_size - i] = val;
+				_size += n;
 			}
 			template <class InputIterator>
 			void insert(iterator position, InputIterator first, InputIterator last)
 			{
-				int	pos = 0;
-				for (iterator it = begin(); it != position; ++it)
-					++pos;
-
-				for (InputIterator it = first; it != last; ++it)
-				{
-					push_back(_ptr[pos]);
-					_ptr[pos] = *it;
+				int	n = 0;
+				for (iterator it = first; it != last; ++it)
+					++n;
+				while (1)
+				{				
+					if	(_capacity == 0)
+						reserve(1);
+					else if (_size + n > _capacity)
+						reserve(_capacity * 2);
+					else
+						break;
 				}
+				int i = 0;
+				for (iterator it = position; it != end(); ++it)
+				{
+					_alloc.construct(&_ptr[_size + n - i], _ptr[_size - i]);
+					++i;
+				}
+				for (iterator it = first; it != last; ++it)
+				{
+					_ptr[_size - i] = *it;
+					--i;
+				}
+				_size += n;
+			
 			}
 			iterator erase(iterator position)
 			{
